@@ -1,0 +1,101 @@
+
+;配置cedet和ecb
+(load-file "/home/chiplua/tools/cedet-1.0/common/cedet.el")
+(global-ede-mode 1)                      ; Enable the Project management system
+(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
+(global-srecode-minor-mode 1)            ; Enable template insertion menu
+
+
+(add-to-list 'load-path "/home/chiplua/tools/ecb-2.40")
+(add-to-list 'load-path "/home/chiplua/.emacs.d/")
+(require 'ecb)
+(require 'ecb-autoloads)
+(require 'xcscope)
+(require 'xgtags)
+(require 'xgtags-extension)
+(require 'gtags)
+(custom-set-variables
+
+
+
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(ecb-options-version "2.40")
+ '(ecb-source-path (quote ("/home/chiplua/work/TCL/AT01_Tapas01/bootable/bootloader/lk"))))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
+
+(setq default-directory "/home/chiplua/work/TCL/AT01_Tapas01/boot/boot/bootloader/lk")
+
+;配置颜色
+(set-background-color "black")
+(set-foreground-color "green")
+(set-cursor-color  "white")
+
+
+
+;;;;;;;;公用功能快捷键设置
+;;F1列模式
+(global-set-key [f1] 'cua-mode)
+;;恢复，常用键 
+(global-set-key [f2] 'undo) 
+;;F4,kill键，习惯设置，关闭当前buffer 
+(global-set-key [f4] 'kill-this-buffer)
+;;定义查找快捷键
+(global-set-key [f5] 'replace-regexp) ;;支持正则表达式
+(global-set-key [f6] 'replace-string)
+;;设置保存当前文件快捷
+(global-set-key [f8] 'save-buffer);
+;;;;;;;;;;F10默认为选择菜单栏
+;;打开一个终端，可以绑定为：eshell,shell,terminal-emulator 
+(global-set-key [f12] 'eshell) 
+;;绑定按键 
+(global-set-key [(meta ?/)] 'hippie-expand)
+
+
+;; 显示括号匹配, 而不是匹配后短暂的跳到另一个括号
+(show-paren-mode t)
+(setq show-paren-style 'parentheses)
+;; 在 mode-line 中显示列号
+(setq column-number-mode t)
+;; 使用 C-k 删除整行
+(setq-default kill-whole-line t)
+;; 设置 kill-ring 的大小
+(setq kill-ring-max 50)
+;; 备份文件目录
+(setq backup-by-copying t) ; 自动备份
+;;自动备份目录~/.emacs.d/backup
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))) 
+(setq delete-old-versions t) ; 自动删除旧的备份文件
+(setq kept-new-versions 2) ; 保留最近的3个备份文件
+(setq kept-old-versions 1) ; 保留最早的2个备份文件
+(setq version-control t) ; 多次备份
+;; 不要问 yes-or-no，只问 y-or-n
+(defalias 'yes-or-no-p 'y-or-n-p)
+;; 设置 emacs 的标题
+(setq frame-title-format "emacs@%b %f")
+;; 可以显示图片
+(auto-image-file-mode)
+;; 高亮显示选中区域
+(transient-mark-mode t)
+;;;不要生成备份文件
+;(setq-default make-backup-files nil)
+;;;; 显示行号
+(setq column-number-mode t)
+(setq line-number-mode t)
+;;;; 显示时间
+(setq display-time-24hr-format t)
+(setq display-time-day-and-date t)
+(display-time)
+;; 代码折叠 
+(load-library "hideshow") 
+(add-hook 'java-mode-hook 'hs-minor-mode) 
+(add-hook 'perl-mode-hook 'hs-minor-mode) 
+(add-hook 'php-mode-hook 'hs-minor-mode) 
+(add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
