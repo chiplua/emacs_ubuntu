@@ -156,9 +156,7 @@ then
     echo "Indexing files ..."
 fi
 
-#modify by chiplua 20120320
-#cscope -b -i $LIST_FILE -f $DATABASE_FILE
-cscope -q -b -i $LIST_FILE -f $DATABASE_FILE
+cscope -b -i $LIST_FILE -f $DATABASE_FILE
 
 if [ "X$VERBOSE" != "X" ]
 then
