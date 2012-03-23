@@ -5,14 +5,14 @@
 (setq line-number-mode t)
 
 ;配置cedet和ecb
-(load-file "/home/chiplua/.emacs.d/cedet-1.0/common/cedet.el")
+(load-file "~/.emacs.d/cedet-1.0/common/cedet.el")
 (global-ede-mode 1)                      ; Enable the Project management system
 (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
 (global-srecode-minor-mode 1)            ; Enable template insertion menu
 
 
-(add-to-list 'load-path "/home/chiplua/tools/ecb-2.40")
-(add-to-list 'load-path "/home/chiplua/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/ecb-2.40")
+(add-to-list 'load-path "~/.emacs.d/")
 (require 'ecb)
 (require 'xcscope)
 (require 'xgtags)
@@ -43,10 +43,11 @@
 ;Use the vim 
 ;(load-file "/home/chiplua/.emacs.d/vimpulse.el")
 ;(require 'vimpulse)
-(load-file "/home/chiplua/.emacs.d/setnu.el")
+(load-file "~/.emacs.d/setnu.el")
 (require 'setnu)
 (setnu-mode t)
-(load-file "/home/chiplua/.emacs.d/linum.el")
+(global-set-key [(meta f3)] (quote setnu-mode))
+(load-file "~/.emacs.d/linum.el")
 (require 'linum)
 
 ;recent open files in FILE menu
