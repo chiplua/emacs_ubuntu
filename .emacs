@@ -149,6 +149,7 @@
 ;; 代码折叠 
 (load-library "hideshow") 
 (add-hook 'java-mode-hook 'hs-minor-mode) 
+(add-hook 'java-mode-hook (function cscope:hook))
 (add-hook 'perl-mode-hook 'hs-minor-mode) 
 (add-hook 'php-mode-hook 'hs-minor-mode) 
 (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
