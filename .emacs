@@ -112,6 +112,9 @@
 (global-set-key [C-f12] 'ecb-deactivate) 
 
 
+
+(setq x-select-enable-primary nil)
+(setq mouse-drag-copy-region nil);;取消鼠标选择即复制
 ;; 显示括号匹配, 而不是匹配后短暂的跳到另一个括号
 (show-paren-mode t)
 (setq show-paren-style 'parentheses)
