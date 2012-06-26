@@ -487,12 +487,12 @@ If you change this during ECB is activated you must deactivate and activate
 ECB again to take effect!"
   :group 'ecb-tree-buffer
   :group 'ecb-most-important
-  :type '(radio (const :tag "Primary: mouse-2, secondary: Ctrl-mouse-2"
+  :type '(radio (const :tag "Primary: mouse-1, secondary: mouse-2"
+		       :value mouse-1--mouse-2)
+	        (const :tag "Primary: mouse-2, secondary: Ctrl-mouse-2"
                        :value mouse-2--C-mouse-2)
                 (const :tag "Primary: mouse-1, secondary: Ctrl-mouse-1"
-                       :value mouse-1--C-mouse-1)
-                (const :tag "Primary: mouse-1, secondary: mouse-2"
-                       :value mouse-1--mouse-2)))
+                       :value mouse-1--C-mouse-1)))
 
 (defcustom ecb-tree-mouse-action-trigger 'button-release
   "*When the tree-buffer mouse-action should be triggered.
