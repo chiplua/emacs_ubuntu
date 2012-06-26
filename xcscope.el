@@ -913,7 +913,7 @@ Must end with a newline.")
   ;; The following section does not appear in the "Cscope" menu.
   (if cscope-running-in-xemacs
       (define-key cscope-list-entry-keymap [button2] 'cscope-mouse-select-entry-other-window)
-    (define-key cscope-list-entry-keymap [mouse-2] 'cscope-mouse-select-entry-other-window))
+    (define-key cscope-list-entry-keymap [mouse-1] 'cscope-mouse-select-entry-other-window))
   (define-key cscope-list-entry-keymap [return] 'cscope-select-entry-other-window)
   (define-key cscope-list-entry-keymap " " 'cscope-show-entry-other-window)
   (define-key cscope-list-entry-keymap "o" 'cscope-select-entry-one-window)
