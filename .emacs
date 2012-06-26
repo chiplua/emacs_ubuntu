@@ -5,7 +5,7 @@
 (setq line-number-mode t)
 
 ;配置cedet和ecb
-(load-file "~/.emacs.d/cedet-1.0/common/cedet.el")
+(load-file "~/.emacs.d/cedet-1.1/common/cedet.el")
 (global-ede-mode 1)                      ; Enable the Project management system
 (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
 (global-srecode-minor-mode 1)            ; Enable template insertion menu
@@ -199,15 +199,6 @@
 (defecb-window-dedicator ecb-set-cscope-buffer " *ECB cscope-buf*"
 (switch-to-buffer "*cscope*"))
 (setq ecb-layout-name "my-cscope-layout")
-
-
-;(require 'ecb-autoloads)
-;auto load ecb when start emacs
-(setq ecb-auto-activate t
-	ecb-tip-of-the-day nil)
- '(ecb-options-version "2.40")
- '(ecb-source-path (quote ("/home/chiplua/work/TCL/AT01_Tapas01/bootable/bootloader/lk")))
-
 
 
 ;用"C-+"和"C--"来放大Emacs显示字体的大小
