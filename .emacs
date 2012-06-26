@@ -201,6 +201,13 @@
 (setq ecb-layout-name "my-cscope-layout")
 
 
+;(require 'ecb-autoloads)
+;auto load ecb when start emacs
+(setq ecb-auto-activate t
+	ecb-tip-of-the-day nil)
+ '(ecb-options-version "2.40")
+ 
+
 ;用"C-+"和"C--"来放大Emacs显示字体的大小
 (defun increase-font-size ()
 (interactive)
