@@ -28,6 +28,7 @@
  '(column-number-mode t)
  '(display-time-mode t)
  '(ecb-options-version "2.40")
+ '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
  '(recentf-max-saved-items 100)
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
