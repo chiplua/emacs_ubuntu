@@ -5,7 +5,7 @@
 (setq line-number-mode t)
 
 ;配置cedet和ecb
-(load-file "~/.emacs.d/cedet-1.1/common/cedet.el")
+(load-file "~/.emacs.d/cedet-1.0/common/cedet.el")
 (global-ede-mode 1)                      ; Enable the Project management system
 (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
 (global-srecode-minor-mode 1)            ; Enable template insertion menu
@@ -258,3 +258,50 @@ nil
    '(1 "_NET_WM_STATE_MAXIMIZED_VERT" 0)))
 (my-maximized)
 ;全屏 end
+
+
+
+;config the java env start
+;; Set the debug option to enable a backtrace when a
+;; problem occurs.
+;; 当有问题出现显示错误信息，便于调试
+(setq debug-on-error t)
+;; Update the Emacs load-path to include the path to
+;; the JDE and its require packages. This code assumes
+;; that you have installed the packages in the emacs/site
+;; subdirectory of your home directory.
+;; 加载所需的package
+(custom-set-variables  
+'(jde-jdk-registry (quote (("1.6.0_15" . "/usr/lib/jvm/java-6-sun-1.6.0.06/")))))
+(add-to-list 'load-path "~/.emacs.d/cedet-1.0/eieio")
+(add-to-list 'load-path "~/.emacs.d/cedet-1.0/semantic")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.0/speedbar/"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/jdee-2.4.0.1/lisp"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.0/common"))
+;(load-file (expand-file-name "~/.emacs.d/cedet-1.1/common/cedet.el"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/elib-1.0"))
+
+;; If you want Emacs to defer loading the JDE until you open a
+;; Java file, edit the following line
+;; 不自动加载jde-mode
+(setq defer-loading-jde t)
+;; to read:
+;;
+;;  (setq defer-loading-jde t)
+;;
+;; 编辑.java文件时加载jde
+(if defer-loading-jde
+    (progn
+      (autoload 'jde-mode "jde" "JDE mode." t)
+      (setq auto-mode-alist
+       (append
+        '(("\\.java\\'" . jde-mode))
+        auto-mode-alist)))
+  (require 'jde))
+;;java 开发环境
+(require 'font-lock)
+(require 'cedet)
+(require 'ecb)
+(require 'ecb-autoloads)
+(require 'jde)
+;config the java env end
