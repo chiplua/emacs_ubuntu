@@ -313,3 +313,6 @@ nil
 (require 'ecb-autoloads)
 (require 'jde)
 ;config the java env end
+
+;Linux下让M-w Emacs复制内容到系统的剪切板
+ (setq x-select-enable-clipboard t)
