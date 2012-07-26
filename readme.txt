@@ -108,3 +108,8 @@ search for a line similar to “egrep -i ‘\.([chly](xx|pp)*|cc|hh)$’ | \“ 
 egrep -i ‘\.([chly](xx|pp)*|cc|hh|java)$’ | \
 Now you can use a single command to genateate the database. Goto the source directory and use below command.
 $ cscope-indexer-java -r    (最后一步用单个命令生成JAVA的cscope.file没有成功)
+
+
+5.去掉代码中的^M
+(1).C-x RET c undecided-unix RET C-x C-w RET y
+(2).M-S 
