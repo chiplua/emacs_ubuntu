@@ -322,3 +322,7 @@ nil
 (defun zlt-disable-electricity ()
   (c-toggle-electric-state -1))
 (add-hook 'c-mode-common-hook 'zlt-disable-electricity)
+
+;Add auto complete
+;;绑定按键 
+(global-set-key [(meta ?/)] 'hippie-expand)
