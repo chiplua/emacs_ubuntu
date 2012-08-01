@@ -113,3 +113,6 @@ $ cscope-indexer-java -r    (最后一步用单个命令生成JAVA的cscope.file
 5.去掉代码中的^M
 (1).C-x RET c undecided-unix RET C-x C-w RET y
 (2).M-S 
+
+6.字符串后面一旦输入左括号后，字符串和左括号就会一起后退。要解决这个问题就要在对应的模式中把C（C++）->Toggle->Electronic mode勾掉。
+
