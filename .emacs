@@ -316,3 +316,9 @@ nil
 
 ;Linux下让M-w Emacs复制内容到系统的剪切板
  (setq x-select-enable-clipboard t)
+
+
+;Disable the electric mode when start up
+(defun zlt-disable-electricity ()
+  (c-toggle-electric-state -1))
+(add-hook 'c-mode-common-hook 'zlt-disable-electricity)
