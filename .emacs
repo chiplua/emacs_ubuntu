@@ -4,11 +4,14 @@
 (setq column-number-mode t)
 (setq line-number-mode t)
 
+
+
 ;配置cedet和ecb
 (load-file "~/.emacs.d/cedet-1.0/common/cedet.el")
 (global-ede-mode 1)                      ; Enable the Project management system
 (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
 (global-srecode-minor-mode 1)            ; Enable template insertion menu
+
 
 
 (add-to-list 'load-path "~/.emacs.d/ecb-2.40")
@@ -41,6 +44,8 @@
   ;; If there is more than one, they won't work right.
  )
 
+
+
 ;Use the vim 
 ;(load-file "/home/chiplua/.emacs.d/vimpulse.el")
 ;(require 'vimpulse)
@@ -51,9 +56,13 @@
 (load-file "~/.emacs.d/linum.el")
 (require 'linum)
 
+
+
 ;recent open files in FILE menu
 (require 'recentf)
 (recentf-mode t)
+
+
 
 ;set tabbar 
 (load-file "~/.emacs.d/tabbar.el")
@@ -64,16 +73,22 @@
 (global-set-key (kbd "C-`") 'tabbar-backward)
 (global-set-key (kbd "C-<tab>") 'tabbar-forward)
 
+
+
 ;配置颜色
 (set-background-color "black")
 (set-foreground-color "green")
 (set-cursor-color  "white")
+
+
 
 ;; 颜色设置
 (setq frame-background-mode 'dark)
 (set-background-color "black")
 (set-foreground-color "gray")
 (set-cursor-color "yellow")
+
+
 
 ;; 设置另外一些颜色：语法高亮显示的背景和主题，区域选择的背景和主题，二次选择的背景和选择
 (set-face-foreground 'highlight "white")
@@ -84,11 +99,14 @@
 (set-face-background 'secondary-selection "darkblue")
 
 
+
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-matrix)
 (color-theme-euphoria)
+
+
 
 ;;;;;;;;公用功能快捷键设置
 ;;F1列模式
@@ -101,14 +119,12 @@
 (global-set-key [(f3)] 'ibuffer) ;disply all the buffers
 ;;F4,kill键，习惯设置，关闭当前buffer 
 (global-set-key [f4] 'kill-this-buffer)
-
 (global-set-key [C-f5] 'revert-buffer)    ;refresh the file.  
 (global-set-key [f5] 'cscope-prev-symbol)
 (global-set-key [f6] 'cscope-next-symbol)
 (global-set-key [f7] 'cscope-find-global-definition-no-prompting)
 (global-set-key [f8]'cscope-pop-mark)
 (global-set-key [f9] 'eshell) 
-
 ;(global-set-key [f6] 'replace-string)
 ;;设置保存当前文件快捷
 ;(global-set-key [f8] 'save-buffer);
@@ -164,6 +180,7 @@
 (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
 
 
+
 ;;设置Alt+Enter为自动补全菜单
 (global-set-key [(meta return)] 'semantic-ia-complete-symbol-menu) 
 ;;切换到编辑窗口
@@ -179,19 +196,12 @@
  ;;设置C++语言默认格式
 ;(add-hook 'c++-mode-common-hook ( lambda() ( c-set-style "k&r" ) ) )
 (put 'set-goal-column 'disabled nil)
-
-
-
-
-
 (global-set-key (kbd "C-c z") (quote shell)) ;The Z key for shell;
-
 
 
 
 (setq backup-inhibited t);; 不产生备份
 (setq auto-save-default nil) ; stop creating those #autosave# files
-
 
 
 
@@ -209,12 +219,14 @@
 (setq ecb-layout-name "my-cscope-layout")
 
 
+
 ;(require 'ecb-autoloads)
 ;auto load ecb when start emacs
 (setq ecb-auto-activate t
 	ecb-tip-of-the-day nil)
  '(ecb-options-version "2.40")
  
+
 
 ;用"C-+"和"C--"来放大Emacs显示字体的大小
 (defun increase-font-size ()
@@ -243,7 +255,6 @@ nil
   (x-send-client-message
    nil 0 nil "_NET_WM_STATE" 32
    '(2 "_NET_WM_STATE_FULLSCREEN" 0)))
-
 ;最大化
 (defun my-maximized-horz ()
   (interactive)
@@ -314,8 +325,11 @@ nil
 (require 'jde)
 ;config the java env end
 
+
+
 ;Linux下让M-w Emacs复制内容到系统的剪切板
  (setq x-select-enable-clipboard t)
+
 
 
 ;Disable the electric mode when start up
@@ -323,6 +337,16 @@ nil
   (c-toggle-electric-state -1))
 (add-hook 'c-mode-common-hook 'zlt-disable-electricity)
 
+
+
 ;Add auto complete
 ;;绑定按键 
 (global-set-key [(meta ?/)] 'hippie-expand)
+
+
+
+;Add auto-complete with auto-complete.el
+(add-to-list 'load-path "/home/chiplua/.emacs.d/auto-complete-1.3.1/")  
+(require 'auto-complete-config)  
+(add-to-list 'ac-dictionary-directories "/home/chiplua/.emacs.d/auto-complete-1.3.1/dict")  
+(ac-config-default)
