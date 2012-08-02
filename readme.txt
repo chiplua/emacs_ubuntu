@@ -116,3 +116,6 @@ $ cscope-indexer-java -r    (最后一步用单个命令生成JAVA的cscope.file
 
 6.字符串后面一旦输入左括号后，字符串和左括号就会一起后退。要解决这个问题就要在对应的模式中把C（C++）->Toggle->Electronic mode勾掉。
 
+
+
+7.auto-complete自动不全的网址http://cx4a.org/software/auto-complete/   http://emacser.com/emacs-gccsense.htm该网址中gccsense并没有添加。
