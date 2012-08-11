@@ -1,7 +1,7 @@
-需要拷贝到别的目录的文件如下：
+在新装的系统中快速搭建环境，除了sudo apt-get install emacs cscope,还需要如下步骤。（需要拷贝到别的目录的文件如下）：
 (1)sudo cp ～/.emacs.d/cscope-indexer-java  /usr/bin/cscope-indexer-java
 (2)cp ~/.emacs.d/.emacs ~/.emacs
-
+(3)安装ibus中需要判断中间ibus的demo进程需要使用python-xlib，所以$sudo apt-get install python-xlib 
 
 
 
