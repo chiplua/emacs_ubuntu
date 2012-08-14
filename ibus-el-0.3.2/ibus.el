@@ -1387,7 +1387,7 @@ given, specifies a keymap variable to be updated."
 ;#    (ibus-log "update ibus-mode-map")
     (unless (keymapp ibus-mode-map)
       (setq ibus-mode-map (make-sparse-keymap)))
-    (define-key ibus-mode-map [ibus-receive-event] 'ibus-exec-callback)
+;#chiplua    (define-key ibus-mode-map [ibus-receive-event] 'ibus-exec-callback)
     (ibus-set-keymap-parent))
   (when (memq symbol '(nil ibus-preedit-function-key-list))
 ;#    (ibus-log "update ibus-mode-preedit-map")
