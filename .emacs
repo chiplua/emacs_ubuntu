@@ -30,11 +30,34 @@
 
 
 
+;;增加ibus中文输入法
+(add-to-list 'load-path "~/.emacs.d/ibus-el-0.3.2/")
+(require 'ibus)
+(add-hook 'after-init-hook 'ibus-mode-on)
+(global-set-key (kbd "C-=") 'ibus-toggle) ;;这里既是绑定上面设置的C+=快捷键到ibus中
+(ibus-define-common-key ?\C-\s nil)
+;; Use C-/ for Undo command
+(ibus-define-common-key ?\C-/ nil)
+;; Change cursor color depending on IBus status
+(setq ibus-cursor-color '("red" "blue" "limegreen"))
+
+
+
+
+;在分别在C，C++，JAVA模式下在菜单栏中显示cscope
+(add-hook 'c-mode-hook (function cscope:hook))
+(add-hook 'c++-mode-hook (function cscope:hook))
+(add-hook 'java-mode-hook (function cscope:hook))
+
+
+
+
 ;;关闭工具栏
 (tool-bar-mode -1)
 ;;;; 显示行号
 (setq column-number-mode t)
 (setq line-number-mode t)
+
 
 
 
@@ -46,9 +69,11 @@
 
 
 
+
 (add-to-list 'load-path "~/.emacs.d/ecb-2.40")
 (add-to-list 'load-path "~/.emacs.d/")
 (require 'ecb)
+(load-file "~/.emacs.d/xcscope.el")
 (require 'xcscope)
 (require 'xgtags)
 ;bu重新建一次数据库
@@ -78,6 +103,7 @@
 
 
 
+
 ;Use the vim 
 ;(load-file "/home/chiplua/.emacs.d/vimpulse.el")
 ;(require 'vimpulse)
@@ -90,9 +116,11 @@
 
 
 
+
 ;recent open files in FILE menu
 (require 'recentf)
 (recentf-mode t)
+
 
 
 
@@ -107,10 +135,12 @@
 
 
 
+
 ;配置颜色
 (set-background-color "black")
 (set-foreground-color "green")
 (set-cursor-color  "white")
+
 
 
 
@@ -119,6 +149,7 @@
 (set-background-color "black")
 (set-foreground-color "gray")
 (set-cursor-color "yellow")
+
 
 
 
@@ -132,11 +163,14 @@
 
 
 
+
+;设置颜色配置方案
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-matrix)
 (color-theme-euphoria)
+
 
 
 
@@ -170,6 +204,7 @@
 
 
 
+
 (setq x-select-enable-primary nil)
 (setq mouse-drag-copy-region nil);;取消鼠标选择即复制
 ;; 显示括号匹配, 而不是匹配后短暂的跳到另一个括号
@@ -182,9 +217,9 @@
 ;; 设置 kill-ring 的大小
 (setq kill-ring-max 50)
 ;; 备份文件目录
-(setq backup-by-copying t) ; 自动备份
+;(setq backup-by-copying t) ; 自动备份
 ;;自动备份目录~/.emacs.d/backup
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))) 
+;(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))) 
 (setq delete-old-versions t) ; 自动删除旧的备份文件
 (setq kept-new-versions 2) ; 保留最近的3个备份文件
 (setq kept-old-versions 1) ; 保留最早的2个备份文件
@@ -213,27 +248,10 @@
 
 
 
-;;设置Alt+Enter为自动补全菜单
-(global-set-key [(meta return)] 'semantic-ia-complete-symbol-menu) 
-;;切换到编辑窗口
-(global-set-key [C-\;] 'ecb-goto-window-edit-last)
-;;切换到函数窗口 
-(global-set-key [C-\'] 'ecb-goto-window-methods) 
-;;搜索定义
-(global-set-key [C-.] 'cscope-find-global-definition) 
-;; 跳出转向
-;(global-set-key [C-,] 'cscope-pop-mark) 
-;;设置C语言默认格式
-;(add-hook 'c-mode-common-hook ( lambda() ( c-set-style "k&r" ) ) ) 
- ;;设置C++语言默认格式
-;(add-hook 'c++-mode-common-hook ( lambda() ( c-set-style "k&r" ) ) )
-(put 'set-goal-column 'disabled nil)
-(global-set-key (kbd "C-c z") (quote shell)) ;The Z key for shell;
-
-
 
 (setq backup-inhibited t);; 不产生备份
 (setq auto-save-default nil) ; stop creating those #autosave# files
+
 
 
 
@@ -242,9 +260,9 @@
 (ecb-set-methods-buffer)
 (ecb-split-ver 0.5 t)
 (other-window 1)
-;(ecb-set-history-buffer)
-;(ecb-split-ver 0.5 t)
-;(other-window 1)
+;(ecb-set-history-buffer)       ;;chiplua
+;(ecb-split-ver 0.5 t)		;;chiplua
+;(other-window 1)		;;chiplua
 (ecb-set-cscope-buffer))
 (defecb-window-dedicator ecb-set-cscope-buffer " *ECB cscope-buf*"
 (switch-to-buffer "*cscope*"))
@@ -252,12 +270,20 @@
 
 
 
-;(require 'ecb-autoloads)
+
+;配置ECB自动加载
+(require 'ecb-autoloads)
 ;auto load ecb when start emacs
 (setq ecb-auto-activate t
 	ecb-tip-of-the-day nil)
  '(ecb-options-version "2.40")
- 
+(setq stack-trace-on-error t)
+(ecb-activate)
+(ecb-byte-compile)
+(switch-to-buffer "*scratch*") 
+(delete-other-windows) 
+
+
 
 
 ;用"C-+"和"C--"来放大Emacs显示字体的大小
@@ -280,6 +306,7 @@ nil
 
 
 
+
 ;config the java env start
 ;; Set the debug option to enable a backtrace when a
 ;; problem occurs.
@@ -299,7 +326,6 @@ nil
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.1/common"))
 ;(load-file (expand-file-name "~/.emacs.d/cedet-1.1/common/cedet.el"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elib-1.0"))
-
 ;; If you want Emacs to defer loading the JDE until you open a
 ;; Java file, edit the following line
 ;; 不自动加载jde-mode
@@ -327,8 +353,10 @@ nil
 
 
 
+
 ;Linux下让M-w Emacs复制内容到系统的剪切板
  (setq x-select-enable-clipboard t)
+
 
 
 
@@ -339,27 +367,16 @@ nil
 
 
 
-;Add auto complete
+
+;自动补齐
 ;;绑定按键 
-(global-set-key [(meta ?/)] 'hippie-expand)
+;(global-set-key [(meta ?/)] 'hippie-expand)
 
 
 
-;Add auto-complete with auto-complete.el
+
+;自动补齐Add auto-complete with auto-complete.el
 (add-to-list 'load-path "/home/chiplua/.emacs.d/auto-complete-1.3.1/")  
 (require 'auto-complete-config)  
 (add-to-list 'ac-dictionary-directories "/home/chiplua/.emacs.d/auto-complete-1.3.1/dict")  
 (ac-config-default)
-
-
-
-;;增加ibus中文输入法
-(add-to-list 'load-path "~/.emacs.d/ibus-el-0.3.2/")
-(require 'ibus)
-(add-hook 'after-init-hook 'ibus-mode-on)
-(global-set-key (kbd "C-=") 'ibus-toggle) ;;这里既是绑定上面设置的C+=快捷键到ibus中
-(ibus-define-common-key ?\C-\s nil)
-;; Use C-/ for Undo command
-(ibus-define-common-key ?\C-/ nil)
-;; Change cursor color depending on IBus status
-(setq ibus-cursor-color '("red" "blue" "limegreen"))
