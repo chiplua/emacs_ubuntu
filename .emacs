@@ -307,53 +307,6 @@ nil
 
 
 
-;config the java env start
-;; Set the debug option to enable a backtrace when a
-;; problem occurs.
-;; 当有问题出现显示错误信息，便于调试
-;(setq debug-on-error t)
-;; Update the Emacs load-path to include the path to
-;; the JDE and its require packages. This code assumes
-;; that you have installed the packages in the emacs/site
-;; subdirectory of your home directory.
-;; 加载所需的package
-(custom-set-variables  
-'(jde-jdk-registry (quote (("1.6.0_15" . "/usr/lib/jvm/java-6-sun-1.6.0.06/")))))
-(add-to-list 'load-path "~/.emacs.d/cedet-1.1/eieio")
-(add-to-list 'load-path "~/.emacs.d/cedet-1.1/semantic")
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.1/speedbar/"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/jdee-2.4.0.1/lisp"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.1/common"))
-;(load-file (expand-file-name "~/.emacs.d/cedet-1.1/common/cedet.el"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/elib-1.0"))
-;; If you want Emacs to defer loading the JDE until you open a
-;; Java file, edit the following line
-;; 不自动加载jde-mode
-(setq defer-loading-jde t)
-;; to read:
-;;
-;;  (setq defer-loading-jde t)
-;;
-;; 编辑.java文件时加载jde
-(if defer-loading-jde
-    (progn
-      (autoload 'jde-mode "jde" "JDE mode." t)
-      (setq auto-mode-alist
-       (append
-        '(("\\.java\\'" . jde-mode))
-        auto-mode-alist)))
-  (require 'jde))
-;;java 开发环境
-(require 'font-lock)
-(require 'cedet)
-(require 'ecb)
-(require 'ecb-autoloads)
-(require 'jde)
-;config the java env end
-
-
-
-
 ;Linux下让M-w Emacs复制内容到系统的剪切板
  (setq x-select-enable-clipboard t)
 
@@ -380,3 +333,79 @@ nil
 (require 'auto-complete-config)  
 (add-to-list 'ac-dictionary-directories "/home/chiplua/.emacs.d/auto-complete-1.3.1/dict")  
 (ac-config-default)
+
+
+
+
+;使用auto-complete当输入“/”后会提示“Tramp:Waiting for prompts from remote shell"的解决方法
+(delete-if
+ (lambda (x)
+   (or (eq (cdr x) 'tramp-completion-file-name-handler)
+       (eq (cdr x) 'tramp-file-name-handler)))
+ file-name-handler-alist)
+
+
+
+
+;;设置Alt+Enter为自动补全菜单
+(global-set-key [(meta return)] 'semantic-ia-complete-symbol-menu) 
+;;切换到编辑窗口
+(global-set-key [C-\;] 'ecb-goto-window-edit-last)
+;;切换到函数窗口 
+(global-set-key [C-\'] 'ecb-goto-window-methods) 
+;;搜索定义
+(global-set-key [C-.] 'cscope-find-global-definition) 
+;; 跳出转向
+;(global-set-key [C-,] 'cscope-pop-mark) 
+;;设置C语言默认格式
+(add-hook 'c-mode-common-hook ( lambda() ( c-set-style "k&r" ) ) ) 
+ ;;设置C++语言默认格式
+(add-hook 'c++-mode-common-hook ( lambda() ( c-set-style "k&r" ) ) )
+(put 'set-goal-column 'disabled nil)
+(global-set-key (kbd "C-c z") (quote shell)) ;The Z key for shell;
+
+
+
+
+
+;config the java env start
+;; Set the debug option to enable a backtrace when a
+;; problem occurs.
+;; 当有问题出现显示错误信息，便于调试
+;(setq debug-on-error t)
+;; Update the Emacs load-path to include the path to
+;; the JDE and its require packages. This code assumes
+;; that you have installed the packages in the emacs/site
+;; subdirectory of your home directory.
+;; 加载所需的package
+(custom-set-variables  
+'(jde-jdk-registry (quote (("1.6.0_15" . "/usr/lib/jvm/java-6-sun-1.6.0.06/")))))
+(add-to-list 'load-path "~/.emacs.d/cedet-1.1/eieio")
+(add-to-list 'load-path "~/.emacs.d/cedet-1.1/semantic")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.1/speedbar/"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/jdee-2.4.0.1/lisp"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.1/common"))
+;(load-file (expand-file-name "~/.emacs.d/cedet-1.1/common/cedet.el"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/elib-1.0"))
+;(setq defer-loading-jde t)
+;(if defer-loading-jde
+;(progn
+;      (autoload 'jde-mode "jde" "JDE mode." t)
+;      (setq auto-mode-alist
+;       (append
+;        '(("\\.java\\'" . jde-mode))
+;        auto-mode-alist)))
+;  (require 'jde))
+;config the java env end
+
+
+
+
+;;; 各窗口间切换
+(global-set-key [M-left] 'windmove-left)
+(global-set-key [M-right] 'windmove-right)
+(global-set-key [M-up] 'windmove-up)
+(global-set-key [M-down] 'windmove-down)
+
+
+
