@@ -1,5 +1,5 @@
 ;;关闭工具栏
-(tool-bar-mode nil)
+(tool-bar-mode -1)
 ;;;; 显示行号
 (setq column-number-mode t)
 (setq line-number-mode t)
@@ -7,7 +7,7 @@
 
 
 ;配置cedet和ecb
-(load-file "~/.emacs.d/cedet-1.0/common/cedet.el")
+(load-file "~/.emacs.d/cedet-1.1/common/cedet.el")
 (global-ede-mode 1)                      ; Enable the Project management system
 (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
 (global-srecode-minor-mode 1)            ; Enable template insertion menu
@@ -190,7 +190,7 @@
 ;;搜索定义
 (global-set-key [C-.] 'cscope-find-global-definition) 
 ;; 跳出转向
-(global-set-key [C-,] 'cscope-pop-mark) 
+;(global-set-key [C-,] 'cscope-pop-mark) 
 ;;设置C语言默认格式
 ;(add-hook 'c-mode-common-hook ( lambda() ( c-set-style "k&r" ) ) ) 
  ;;设置C++语言默认格式
@@ -284,7 +284,7 @@ nil
 ;; Set the debug option to enable a backtrace when a
 ;; problem occurs.
 ;; 当有问题出现显示错误信息，便于调试
-(setq debug-on-error t)
+;(setq debug-on-error t)
 ;; Update the Emacs load-path to include the path to
 ;; the JDE and its require packages. This code assumes
 ;; that you have installed the packages in the emacs/site
@@ -292,11 +292,11 @@ nil
 ;; 加载所需的package
 (custom-set-variables  
 '(jde-jdk-registry (quote (("1.6.0_15" . "/usr/lib/jvm/java-6-sun-1.6.0.06/")))))
-(add-to-list 'load-path "~/.emacs.d/cedet-1.0/eieio")
-(add-to-list 'load-path "~/.emacs.d/cedet-1.0/semantic")
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.0/speedbar/"))
+(add-to-list 'load-path "~/.emacs.d/cedet-1.1/eieio")
+(add-to-list 'load-path "~/.emacs.d/cedet-1.1/semantic")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.1/speedbar/"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/jdee-2.4.0.1/lisp"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.0/common"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/cedet-1.1/common"))
 ;(load-file (expand-file-name "~/.emacs.d/cedet-1.1/common/cedet.el"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elib-1.0"))
 
