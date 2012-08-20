@@ -38,6 +38,8 @@
 (ibus-define-common-key ?\C-\s nil)
 ;; Use C-/ for Undo command
 (ibus-define-common-key ?\C-/ nil)
+;;use C-* for undo commond
+(global-set-key [C-*] 'ibus-receive-event)
 ;; Change cursor color depending on IBus status
 (setq ibus-cursor-color '("red" "blue" "limegreen"))
 
@@ -425,6 +427,12 @@ nil
  ; (interactive)
   ;(compile (format "g++ -o a.out %s" (buffer-file-name))))
 ;(global-set-key (kbd "C-<f1>") 'compile-file)
+
+
+
+;解决的"Command attempted to use minibuffer while in minibuffer"bug
+(setq enable-recursive-minibuffers t) 
+
 
 
 
