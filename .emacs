@@ -419,7 +419,7 @@ nil
 (defun compile-file ()
   (interactive)
   (compile (format "g++ -o a.out %s" (buffer-file-name))))
-(global-set-key (kbd "C-<f1>") 'compile-file)
+(global-set-key (kbd "C-<f2>") 'compile-file)
 ;; compile current java file
 ;(defun compile-file ()
  ; (interactive)
