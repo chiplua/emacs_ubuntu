@@ -36,7 +36,7 @@
 (global-set-key (kbd "C-=") 'ibus-toggle)
 (ibus-define-common-key ?\C-\s nil)
 ;; Change cursor color depending on IBus status
-;(setq ibus-cursor-color '("red" "blue" "limegreen"))
+(setq ibus-cursor-color '("red" "blue" "limegreen"))
 
 
 
