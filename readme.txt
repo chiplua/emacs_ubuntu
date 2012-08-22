@@ -2,7 +2,16 @@
 (1)sudo cp ～/.emacs.d/cscope-indexer-java  /usr/bin/cscope-indexer-java
 (2)cp ~/.emacs.d/.emacs ~/.emacs
 (3)安装ibus中需要判断中间ibus的demo进程需要使用python-xlib，所以$sudo apt-get install python-xlib 
+		(a).安装ibus-el，为省去繁琐的步骤，直接用"sudo apt-get install ibus-el"就行啦！
+		(b).在~/.emacs下加入这句“(add-hook 'after-init-hook 'ibus-mode-on)”，保存重启
 
+		现在，你已经可以用 Ctrl+Space 切换到ibus啦！是不是很兴奋？不过你可能还不满足，想用 Ctrl+Space 做mark-set功能，用emacs的默认输入法切换快捷键 		Ctrl+\ 做中英文切换，那你就需要跟着我往下做啦。
+
+		(c).在~/.emacs下加入"(require 'ibus) "(为了激活下面的语句)
+		(d).在其后加入
+		(global-set-key (kbd "\C-\\") 'ibus-toggle)     //激活Ctrl+\切换
+		(ibus-define-common-key ?\C-\s nil)               //取消Ctrl+Space的切换
+		好啦，现在可以用 Ctrl+Space mark 用 Ctrl+\ 切换啦，哈哈，赶紧去试试吧！
 
 
 

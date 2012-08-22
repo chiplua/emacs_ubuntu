@@ -31,17 +31,12 @@
 
 
 ;;增加ibus中文输入法
-(add-to-list 'load-path "~/.emacs.d/ibus-el-0.3.2/")
-(require 'ibus)
 (add-hook 'after-init-hook 'ibus-mode-on)
-(global-set-key (kbd "C-=") 'ibus-toggle) ;;这里既是绑定上面设置的C+=快捷键到ibus中
+(require 'ibus)
+(global-set-key (kbd "C-=") 'ibus-toggle)
 (ibus-define-common-key ?\C-\s nil)
-;; Use C-/ for Undo command
-(ibus-define-common-key ?\C-/ nil)
-;;use C-* for undo commond
-(global-set-key [C-*] 'ibus-receive-event)
 ;; Change cursor color depending on IBus status
-(setq ibus-cursor-color '("red" "blue" "limegreen"))
+;(setq ibus-cursor-color '("red" "blue" "limegreen"))
 
 
 
