@@ -372,6 +372,15 @@ nil
 
 
 
+;使用auto-complete-scite-api
+(add-to-list 'load-path "/home/chiplua/.emacs.d/auto-complete-1.3.1/ac-scite-api-directories/")
+(load "auto-complete-config")
+(if (load "auto-complete-scite-api" t)
+    (setq-default ac-sources (cons 'ac-source-scite-api ac-sources)))
+
+
+
+
 ;;设置Alt+Enter为自动补全菜单
 (global-set-key [(meta return)] 'semantic-ia-complete-symbol-menu) 
 ;;切换到编辑窗口

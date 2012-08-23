@@ -12,7 +12,16 @@
 		(global-set-key (kbd "\C-\\") 'ibus-toggle)     //激活Ctrl+\切换
 		(ibus-define-common-key ?\C-\s nil)               //取消Ctrl+Space的切换
 		好啦，现在可以用 Ctrl+Space mark 用 Ctrl+\ 切换啦，哈哈，赶紧去试试吧！
-
+(4)在auto-complete.el自动补全中使用scite的补全功能查看函数的定义按如下步骤操作：
+		(a).先安装scite  sudo apt-get install scite
+		(b).安装中文包：wget http://scite-files.googlecode.com/svn-history/trunk/translations/locale.zh_cn.properties
+		       mv locale.zh_cn.properties locale.properties
+		       sudo mv locale.properties  /usr/share/scite
+		(c).设置api所在的路径
+		      cd /usr/share/scite/
+		      sudo mkdir api
+		      sudo cp ~/.emacs.d/auto-complete-1.3.1/ac-scite-api-directories/*.api    ./
+                (d).api下载的页面在http://code.google.com/p/scite-files/wiki/Customization
 
 
 
