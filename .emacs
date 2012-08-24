@@ -129,6 +129,15 @@
 (global-set-key (kbd "") 'tabbar-forward-group)
 (global-set-key (kbd "C-`") 'tabbar-backward)
 (global-set-key (kbd "C-<tab>") 'tabbar-forward)
+;当用tab切换时，只切换自己打开的文件
+(setq tabbar-buffer-groups-function
+    (lambda (b) (list "All Buffers")))
+(setq tabbar-buffer-list-function
+    (lambda ()
+        (remove-if
+          (lambda(buffer)
+             (find (aref (buffer-name buffer) 0) " *"))
+          (buffer-list))))
 ;; 设置tabbar外观
 ;; 设置默认主题: 字体, 背景和前景颜色，大小
 (set-face-attribute 'tabbar-default-face nil
