@@ -127,8 +127,8 @@
 (tabbar-mode)
 (global-set-key (kbd "") 'tabbar-backward-group)
 (global-set-key (kbd "") 'tabbar-forward-group)
-(global-set-key (kbd "C-`") 'tabbar-backward)
-(global-set-key (kbd "C-<tab>") 'tabbar-forward)
+(global-set-key [C-S-iso-lefttab] 'tabbar-backward)
+(global-set-key [(control tab)]   'tabbar-forward)
 ;当用tab切换时，只切换自己打开的文件
 (setq tabbar-buffer-groups-function
     (lambda (b) (list "All Buffers")))
