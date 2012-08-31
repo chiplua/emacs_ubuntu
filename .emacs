@@ -33,7 +33,7 @@
 ;;增加ibus中文输入法
 (add-hook 'after-init-hook 'ibus-mode-on)
 (require 'ibus)
-(global-set-key (kbd "C-=") 'ibus-toggle)
+(global-set-key (kbd "C-SPC") 'ibus-toggle)
 (ibus-define-common-key ?\C-\s nil)
 ;; Change cursor color depending on IBus status
 (setq ibus-cursor-color '("red" "blue" "limegreen"))
@@ -471,8 +471,16 @@ nil
 
 
 
+
 ;解决的"Command attempted to use minibuffer while in minibuffer"bug
 (setq enable-recursive-minibuffers t) 
+
+
+
+
+;用shirt+space来标记mark,使用c-g取消标记
+(global-set-key [?\S- ] 'set-mark-command)
+
 
 
 
