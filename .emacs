@@ -65,6 +65,8 @@
 (global-ede-mode 1)                      ; Enable the Project management system
 (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
 (global-srecode-minor-mode 1)            ; Enable template insertion menu
+;minibuffer中显示函数的定义，原来时间差不多要3秒，现在改为0秒.
+(setq semantic-idle-scheduler-idle-time 0)
 
 
 
@@ -126,7 +128,7 @@
 ;set tabbar 
 (load-file "~/.emacs.d/tabbar.el")
 (require 'tabbar)
-(tabbar-mode)
+(tabbar-mode 1)
 (global-set-key (kbd "") 'tabbar-backward-group)
 (global-set-key (kbd "") 'tabbar-forward-group)
 (global-set-key [C-S-iso-lefttab] 'tabbar-backward)
