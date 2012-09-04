@@ -58,6 +58,8 @@
 
 
 
+(add-to-list 'load-path
+    "~/.emacs.d/cedet-1.1/common")
 ;配置cedet和ecb
 (load-file "~/.emacs.d/cedet-1.1/common/cedet.el")
 (global-ede-mode 1)                      ; Enable the Project management system
