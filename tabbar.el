@@ -49,7 +49,7 @@
 ;; - `tabbar-forward' select the next available tab.
 ;; - `tabbar-backward' select the previous available tab.
 ;;
-;; It is worth defining keys for them.  For example: 
+;; It is worth defining keys for them.  For example:
 ;;
 ;;   (global-set-key [(control shift tab)] 'tabbar-backward)
 ;;   (global-set-key [(control tab)]       'tabbar-forward)
@@ -162,7 +162,7 @@
 ;;
 
 ;;; Code:
-
+
 ;;; Options
 ;;
 (defgroup tabbar nil
@@ -271,7 +271,7 @@ The help string is displayed when the mouse is onto the button.
 The function is called with no arguments."
   :group 'tabbar
   :type 'function)
-
+
 ;;; Tab and tab set
 ;;
 (defconst tabbar-tabsets-tabset-name "tabbar-tabsets-tabset"
@@ -439,7 +439,14 @@ move the view on left."
                     (1- (length (tabbar-tabs tabset))))))
     (when (/= start (tabbar-start tabset))
       (tabbar-set-template tabset nil)
-      (put tabset 'start start))))
+      (put tabset 'start start)
+      (tabbar-adjust tabset)
+      (when (/= start (tabbar-start tabset)) ; if set failed, select prev/next tab.
+	(switch-to-buffer (tabbar-tab-value
+			   (tabbar-tab-next tabset
+					    (tabbar-selected-tab tabset)
+					    (if (< count 0) t nil))))
+	(put tabset 'start start)))))
 
 (defun tabbar-tab-next (tabset tab &optional before)
   "Search in TABSET for the tab after TAB.
@@ -479,6 +486,62 @@ current cached copy."
     (tabbar-set-template tabsets-tabset nil)
     tabsets-tabset))
 
+(defsubst tabbar-set-start (tabset start)
+  "Set the index of the first tab in the TABSET's view to START."
+  (put tabset 'start start))
+
+(defun find-index-in-list (elm li)
+  "Return index of ELM in list LI."
+  (let ((index 0))
+    (while (and li (not (equal (car li) elm)))
+      (setq index (1+ index))
+      (setq li (cdr li)))
+    (if (equal (car li) elm)
+	index
+      nil)))
+
+(defsubst tabbar-tab-label-width (tab)
+  "Return the width of label TAB occupies, including separator."
+  (+ (length (if tabbar-tab-label-function
+		 (funcall tabbar-tab-label-function tab)
+	       tab))
+     (length tabbar-separator-value)))
+
+(defun tabbar-tabs-view-width (tabs start end)
+  "Return sum of width of TABS from START index to END index."
+  (let ((sum 0))
+    (mapc #'(lambda (_tab)
+	      (setq sum (+ sum
+			   (tabbar-tab-label-width _tab))))
+	  (butlast (nthcdr start tabs)
+		   (- (length tabs) end 1)))
+    sum))
+
+(defun tabbar-adjust (tabset)
+  "Adjust TABSET's first tab index."
+  (let* ((tabs (tabbar-tabs tabset))
+	 (sel-index (find-index-in-list
+		     (tabbar-selected-tab tabset)
+		     tabs))
+	 (start-index (tabbar-start tabset))
+	 view-width)
+    (if (< sel-index start-index)
+	(tabbar-set-start tabset sel-index)
+      (when (> sel-index start-index)
+	(setq view-width (tabbar-tabs-view-width tabs start-index sel-index))
+	(when (> view-width (window-width))
+	  ;; increase start-index until selected tab is within window.
+	  (setq tabs (nthcdr start-index tabs))
+	  (while (and (< start-index sel-index)
+		      (> view-width (window-width)))
+	    (setq view-width (- view-width
+				 (tabbar-tab-label-width (car tabs)))
+		  start-index (1+ start-index)
+		  tabs (cdr tabs))
+	    )
+	  (tabbar-set-start tabset start-index))))))
+
+
 ;;; Buttons and separators
 ;;
 (defun tabbar-find-image (specs)
@@ -775,7 +838,7 @@ See the variable `tabbar-button-widget' for details."
   :group 'tabbar
   :type tabbar-button-widget
   :set 'tabbar-setup-button)
-
+
 ;;; Faces
 ;;
 (defface tabbar-default-face
@@ -836,7 +899,7 @@ See the variable `tabbar-button-widget' for details."
     )
   "Face used for the select mode button."
   :group 'tabbar)
-
+
 ;;; Wrappers
 ;;
 (defun tabbar-scroll-left (event)
@@ -861,7 +924,7 @@ See the variable `tabbar-button-widget' for details."
 
  ;; These functions can be called at compilation time.
 (eval-and-compile
-  
+
   (defun tabbar-make-select-tab-command (tab)
     "Return a command to handle TAB selection.
 That command calls `tabbar-select-tab-function' with the received
@@ -925,6 +988,7 @@ set's view to build a list of template elements for
     (let ((tabset (tabbar-current-tabset t))
           (padcolor (face-background 'tabbar-default-face)))
       (when tabset
+	(tabbar-adjust tabset)
         (list (format "%s%s%s"
                       (if tabbar-home-function
                           tabbar-home-button-enabled
@@ -947,7 +1011,7 @@ set's view to build a list of template elements for
               (propertize "%-" 'face (list :background padcolor
                                            :foreground padcolor))))
       )))
-
+
 ;;; Cyclic navigation through tabs
 ;;
 (defsubst tabbar-make-mouse-event (&optional type)
@@ -1055,7 +1119,7 @@ Depend on the setting of the option `tabbar-cycling-scope'."
   (interactive)
   (let ((tabbar-cycling-scope 'tabs))
     (tabbar-cycle)))
-
+
 ;;; Minor modes
 ;;
 (defvar tabbar-old-global-hlf nil
@@ -1121,7 +1185,7 @@ header line is restored, hiding the tab bar."
       (setq header-line-format tabbar-old-local-hlf)
       (kill-local-variable 'tabbar-old-local-hlf))
     ))
-
+
 ;;; Hooks
 ;;
 (defun tabbar-default-inhibit-function ()
@@ -1153,7 +1217,7 @@ first."
            ;; Move sibling buffer in front of the buffer list.
            (save-current-buffer
              (switch-to-buffer sibling))))))
-
+
 ;;; Buffer tabs
 ;;
 (defcustom tabbar-buffer-list-function
@@ -1191,41 +1255,29 @@ Return only one group for each buffer."
   (with-current-buffer (get-buffer buffer)
     (cond
      ((or (get-buffer-process (current-buffer))
-;--------------------这里，就是分组的开始---------------------
-    (memq major-mode
+          (memq major-mode
                 '(comint-mode compilation-mode)))
-                  '("rocess")
-              )
-         ((member (buffer-name)
+      '("Process")
+      )
+     ((member (buffer-name)
               '("*scratch*" "*Messages*"))
-                  '("Common")
-          )
-
-;         ((eq major-mode 'dired-mode)
-;              '("Dired")
-;          )
-;;;added for program 我的修改
-         ((memq major-mode
-            '(c++-mode
-              c-mode
-              ))
-              '("rogram")
-          )
-;;;added for program
-;这一部分，我直接注释掉了
-;     ((memq major-mode
-;            '(help-mode apropos-mode Info-mode Man-mode))
-;      '("Help")
-;      )
-;     ((memq major-mode
-;            '(rmail-mode
-;              rmail-edit-mode vm-summary-mode vm-mode mail-mode
-;              mh-letter-mode mh-show-mode mh-folder-mode
-;              gnus-summary-mode message-mode gnus-group-mode
-;              gnus-article-mode score-mode gnus-browse-killed-mode))
-;      '("Mail")
-;      )
-;注释结束
+      '("Common")
+      )
+     ((eq major-mode 'dired-mode)
+      '("Dired")
+      )
+     ((memq major-mode
+            '(help-mode apropos-mode Info-mode Man-mode))
+      '("Help")
+      )
+     ((memq major-mode
+            '(rmail-mode
+              rmail-edit-mode vm-summary-mode vm-mode mail-mode
+              mh-letter-mode mh-show-mode mh-folder-mode
+              gnus-summary-mode message-mode gnus-group-mode
+              gnus-article-mode score-mode gnus-browse-killed-mode))
+      '("Mail")
+      )
      (t
       (list
        (if (and (stringp mode-name) (string-match "[^ ]" mode-name))
@@ -1273,7 +1325,7 @@ Return the the first group where the current buffer is."
      buffers)
     (tabbar-buffer-cleanup-tabsets buffers)
     current-group))
-
+
 ;;; Tab bar callbacks
 ;;
 (defvar tabbar-buffer-group-mode nil
