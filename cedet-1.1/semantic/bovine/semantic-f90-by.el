@@ -3,7 +3,7 @@
 ;; Copyright (C) 2010 Free Software Foundation
 
 ;; Author: chiplua <chiplua@chiplua>
-;; Created: 2012-06-26 17:07:07+0800
+;; Created: 2012-09-04 19:12:13+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

@@ -3,7 +3,7 @@
 ;; Copyright (C) 2002, 2003 Vladimir G. Sekissov
 
 ;; Author: chiplua <chiplua@chiplua>
-;; Created: 2012-06-26 17:07:06+0800
+;; Created: 2012-09-04 19:12:12+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

@@ -65,7 +65,7 @@ DOT is a part of GraphVis.
 (autoload 'cogre-export-dot-method "cogre-convert" "\
 Convert G into DOT syntax of semantic tags.
 
-\(fn (G cogre-base-graph))" nil nil)
+\(fn (g cogre-base-graph))" nil nil)
 
 (autoload 'cogre-export-utest "cogre-convert" "\
 Run all the COGRE structured export/convert test.
@@ -268,7 +268,7 @@ Setup buffer for parse.
 ;;;***
 
 ;;;### (autoloads nil nil ("cogre-load.el" "wisent-dot-wy.el") (20549
-;;;;;;  49480 753170))
+;;;;;;  57878 721351))
 
 ;;;***
 

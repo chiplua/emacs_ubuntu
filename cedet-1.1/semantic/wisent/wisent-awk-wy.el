@@ -3,7 +3,7 @@
 ;; Copyright (C) 2002 David Ponce
 
 ;; Author: chiplua <chiplua@chiplua>
-;; Created: 2012-06-26 17:06:56+0800
+;; Created: 2012-09-04 19:11:52+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

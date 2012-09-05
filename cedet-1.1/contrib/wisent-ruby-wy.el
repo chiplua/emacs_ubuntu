@@ -3,7 +3,7 @@
 ;;; Copyright (C) 2007 Daniel Debertin (debertin@gmail.com)
 
 ;; Author: chiplua <chiplua@chiplua>
-;; Created: 2012-06-26 17:07:23+0800
+;; Created: 2012-09-04 19:12:28+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
