@@ -66,7 +66,7 @@
 (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
 (global-srecode-minor-mode 1)            ; Enable template insertion menu
 ;minibuffer中显示函数的定义，原来时间差不多要3秒，现在改为0秒.
-(setq semantic-idle-scheduler-idle-time 0)
+(setq semantic-idle-scheduler-idle-time 1)
 
 
 
