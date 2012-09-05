@@ -22,7 +22,12 @@
 		      sudo mkdir api
 		      sudo cp ~/.emacs.d/auto-complete-1.3.1/ac-scite-api-directories/*.api    ./
                 (d).api下载的页面在http://code.google.com/p/scite-files/wiki/Customization
-
+(5)如何安装编译一个新的cedet
+                (a).把新的cedet放置到~/.emacs.d/下
+                (b).在emacs中打开~/.emacs.d/cedet/cedet-build.el
+                (c).M-x eval-buffer
+                (d).M-x cedet-build-in-default-emacs
+                (e).编译过程中如果发生超过emacs堆栈大小的错误，退出emacs再重新编译即可。
 
 
 
