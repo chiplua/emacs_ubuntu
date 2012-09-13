@@ -318,6 +318,26 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
 )
+;定义C-1显示ECB左边小窗口，C-2显示ECB左边大窗口
+(defun ecb-window-left ()
+ (interactive)
+(custom-set-variables
+ '(ecb-windows-width 0.2))
+(custom-set-faces
+))
+(defun window_move_right ()
+(interactive)
+(windmove-right)
+)
+(defun ecb-window-right ()
+(interactive)
+(custom-set-variables
+ '(ecb-windows-width 0.9))
+(custom-set-faces
+))
+(global-set-key (kbd "C-1") 'ecb-window-left)
+(global-set-key (kbd "C-2") 'window_move_right)
+(global-set-key (kbd "C-3") 'ecb-window-right)
 
 
 
