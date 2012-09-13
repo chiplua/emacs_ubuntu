@@ -287,7 +287,7 @@
 
 
 
-(setq backup-inhibited t);; 不产生备份
+(setq backup-inhibited nil);; 不产生备份
 (setq auto-save-default nil) ; stop creating those #autosave# files
 
 
