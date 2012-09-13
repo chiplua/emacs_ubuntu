@@ -531,6 +531,8 @@ nil
 (require 'yasnippet) ;; not yasnippet-bundle
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/yasnippet/yasnippet-0.6.1c/snippets")
+;保持tab的宽度
+(setf yas/indent-line nil)
 
 
 
