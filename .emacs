@@ -521,4 +521,18 @@ nil
 
 
 
+;使用yasnippet
+(add-to-list 'load-path
+              "~/.emacs.d/yasnippet")
+(require 'yasnippet-bundle)
+;设置模板
+(add-to-list 'load-path
+              "~/.emacs.d/yasnippet/yasnippet-0.6.1c")
+(require 'yasnippet) ;; not yasnippet-bundle
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippet/yasnippet-0.6.1c/snippets")
+
+
+
+
 
