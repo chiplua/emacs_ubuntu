@@ -348,7 +348,7 @@
 (setq ecb-auto-activate t
 	ecb-tip-of-the-day nil)
  '(ecb-options-version "2.40")
-(setq stack-trace-on-error t)
+;(setq stack-trace-on-error t)
 (ecb-activate)
 (ecb-byte-compile)
 (switch-to-buffer "*scratch*") 
