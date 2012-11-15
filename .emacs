@@ -224,19 +224,18 @@
 ;;F4,kill键，习惯设置，关闭当前buffer 
 (global-set-key [f4] 'kill-this-buffer)
 (global-set-key [C-f5] 'revert-buffer)    ;refresh the file.  
-(global-set-key [f5] 'cscope-prev-symbol)
-(global-set-key [f6] 'cscope-next-symbol)
-(global-set-key [f7] 'cscope-find-global-definition-no-prompting)
-(global-set-key [f8]'cscope-pop-mark)
-(global-set-key [f9] 'eshell) 
-;(global-set-key [f6] 'replace-string)
-;;设置保存当前文件快捷
-;(global-set-key [f8] 'save-buffer);
+(global-set-key [f5] 'eshell)
+(global-set-key [f6] 'replace-string)
 ;;定义F9为CMD命令模式
 ;;设置F11为删除其它窗口
-(global-set-key [f11] 'delete-other-windows) 
+(global-set-key [f7] 'delete-other-windows)
 ;;定义F12键为激活ecb
-(global-set-key [f12] 'ecb-activate) 
+(global-set-key [f8] 'ecb-activate)
+
+(global-set-key [f9] 'cscope-prev-symbol)
+(global-set-key [f10] 'cscope-next-symbol)
+(global-set-key [f11] 'cscope-find-global-definition-no-prompting)
+(global-set-key [f12]'cscope-pop-mark)
 ;;定义Ctrl+F12为停止ecb
 (global-set-key [C-f12] 'ecb-deactivate) 
 
