@@ -324,10 +324,16 @@
  '(ecb-windows-width 0.2))
 (custom-set-faces
 ))
-(defun window_move_right ()
-(interactive)
-(windmove-right)
-)
+;; (defun window_move_right () ;光标移动到右边的窗口
+;; (interactive)
+;; (windmove-right)
+;; )
+(defun ecb-window-left-mini ()
+ (interactive)
+(custom-set-variables
+ '(ecb-windows-width 0.0))
+(custom-set-faces
+))
 (defun ecb-window-right ()
 (interactive)
 (custom-set-variables
@@ -335,7 +341,8 @@
 (custom-set-faces
 ))
 (global-set-key (kbd "C-1") 'ecb-window-left)
-(global-set-key (kbd "C-2") 'window_move_right)
+;(global-set-key (kbd "C-2") 'window_move_right)
+(global-set-key (kbd "C-2") 'ecb-window-left-mini)
 (global-set-key (kbd "C-3") 'ecb-window-right)
 
 
