@@ -406,9 +406,9 @@ nil
 
 
 ;自动补齐Add auto-complete with auto-complete.el
-(add-to-list 'load-path "/home/chiplua/.emacs.d/auto-complete-1.3.1/")  
+(add-to-list 'load-path "~/.emacs.d/auto-complete-1.3.1/")
 (require 'auto-complete-config)  
-(add-to-list 'ac-dictionary-directories "/home/chiplua/.emacs.d/auto-complete-1.3.1/dict")  
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/auto-complete-1.3.1/dict")
 (ac-config-default)
 
 
@@ -425,7 +425,7 @@ nil
 
 
 ;使用auto-complete-scite-api
-(add-to-list 'load-path "/home/chiplua/.emacs.d/auto-complete-1.3.1/ac-scite-api-directories/")
+(add-to-list 'load-path "~/.emacs.d/auto-complete-1.3.1/ac-scite-api-directories/")
 (load "auto-complete-config")
 (if (load "auto-complete-scite-api" t)
     (setq-default ac-sources (cons 'ac-source-scite-api ac-sources)))
