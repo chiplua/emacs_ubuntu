@@ -142,3 +142,34 @@ $ cscope-indexer-java -r    (最后一步用单个命令生成JAVA的cscope.file
 
 
 7.auto-complete自动不全的网址http://cx4a.org/software/auto-complete/   http://emacser.com/emacs-gccsense.htm该网址中gccsense并没有添加。
+
+
+
+8:Ubuntu 使用emacs+auctex编译tex文档
+首先是安装emacs
+sudo apt-get install emacs
+搞定。
+然后安装auctex
+由于我下载安装了texlive 2008,而没有使用源里的旧版本，所以不能直接apt-get install auctex了，因为这样会要求你从源里
+安装texlive。下载安装之。
+从gnu网站下载auctex-11.85（http://www.gnu.org/software/auctex/ ），例如下载到主目录下，解压。
+cd auctex-11.85
+./config --with-emacs #（注意--with-emacs参数，如果不使用此参数，emacs找不到auctex）
+make
+make install
+安装完成。
+编辑~/.emacs文件（没有的话，自己新建），令emacs加载auctex
+(load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+这时用emacs打开一个.tex文件，会看到菜单栏上多了Preview、LaTeX、Command菜单项（auctex成功安装）
+设置xelatex为默认编辑命令，evince为pdf文件阅读器
+再在~/.emacs中添加以下命令：
+(setq TeX-output-view-style (quote (("^pdf$" "." "evince %o %(outpage)"))))
+(add-hook 'LaTeX-mode-hook
+(lambda()
+(add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+(setq TeX-command-default "XeLaTeX")))
+就可以使用C-c C-c编译tex文件，使用C-c C-v使用evince阅读生成的pdf文件。
