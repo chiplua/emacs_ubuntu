@@ -173,3 +173,115 @@ make install
 (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 (setq TeX-command-default "XeLaTeX")))
 就可以使用C-c C-c编译tex文件，使用C-c C-v使用evince阅读生成的pdf文件。
+
+latex中文支持
+环境
+  系统：Ubuntu Desktop 12.04 x86_64
+  Latex：texlive2012
+  编辑器：GNU Emacs 23.3.1+Auctex
+缘起
+最初安装的Ubuntu Desktop 12.04系统是英文版的，手动添加了中文字体在 /usr/share/fonts目录下面。最近由于写文章需要，由于以前用过一段时间windows+office， 再转过来使用linux下面的office软件，大部分都感觉不是很舒服，可能因为没有花时间找吧。目前对于word文档之类的都暂时使用永中Office，主要都是修改word文档或者与别人交 流的时候只能使用word文档的情况才会用到。因此，就慢慢寻找linux下面的文本编辑器。 在试用的过程中逐渐把目标定在了Emacs+Latex+Autex这个组合上面了。因为之前写的英文 文章，latex的中文支持就一直都没有放在心上，也没有尝试去解决。但现在需要写毕设论文了，因为已经喜欢上了latex编辑器，当然就想着试试。但最初的中文尝试并不顺利，试过大部分自己在网上找到的中文解决方法在我这里都不适用。最初问题是编译包含中文字符的源文件都会报错；经过一番修改调整之后，问题演变为，编译中英文混排的源文件没有问 题，但生成的pdf文件就是不显示中文，该出现中文字符的位置上都是空格代替。在后一个问题上面纠结了两三天都没有解决。就果断卸载重装。
+新环境安装过程
+texlive2012
+下载
+从google中找到下面的链接地址 http://www.tug.org/texlive/acquire-iso.html，直接下载到目录（假设为/home/username/Downloads）
+挂载
+下载到你的目录中之后，对于iso文件，linux可以直接挂载
+ mount -t iso9660 -o ro,loop,noauto /home/username/Downloads/texlive2012.iso /mnt/disk
+安装
+安装过程有两个途径：文本（text）和图形界面（gui)， 我选择的是图形界面下安装；
+安装perl-tk（图形界面的安装需要用到）：
+sudo apt-get install perl-tk
+
+安装texlive2012：
+
+/mnt/disk/install-tl -–gui
+在出现的安装界面中，第二步需要选择语言支持，默认是全选的，但有些基本上用不上，我 选的是CJK（中日韩文）和英文；其他的就默认安装即可；
+
+环境变量
+安装结束之后，在shell窗口中会有些提示很重要（以后加上截图）。意思是，这样安装结 束之后，直接输入latex或者xelatex，系统会提示没有此命令，主要是因为环境变量PATH中 没有此命令安装的路径；需要将latex命令的路径 “/usr/local/texlive/2012/bin/x86_64‐linux:”添加到PATH变量中；
+注意：添加环境变量可选择的配置文件有三个以上，他们是有区别的；
+
+1）在/home/username/.bashrc或者/home/username/.profile中添加
+
+export PATH=/usr/local/texlive/2012/bin/x86_64‐linux:$PATH;
+2）在/etc/profile 中添加
+
+export PATH=/usr/local/texlive/2012/bin/x86_64‐linux:$PATH;
+
+或者直接在/etc/environment中修改PATH变量，结尾处双引号之前加
+:/usr/local/texlive/2012/bin/x86_64-linux
+这种添加方式等于修改原系统默认的PATH。
+
+第一种情况下，用户每开启一个shell窗口，都会自动执行配置文件中的命令，因此，能够 在shell中输入latex或者xelatex就显示相应命令提示；但如果想在emacs中使用，还是会出 错的，因为PATH变量只有在启动shell时才会执行。emacs调用时并不会执行，也就是emacs 调用latex时，仍然找不到latex的路径；这时就需要第二种方法； 第二种情况是在系统启动的过程中，执行一次之后，在整个系统活动过程中，都是有效的。 这是不需要第一种情况的修改，用户启动shell窗口调用latex和emacs中C-c C-c自动调用 latex都能够找到latex命令的路径。
+二者区别就如同用户级环境变量和系统级环境变量，而emacs自动调用时用到的是后者。
+添加完latex执行命令的路径之后，还需要添加其他两个，主要是在帮助文档显示的过程中 用到，例如，man latex 同样加入/etc/profile文件最后
+MANPATH=/usr/local/texlive/2012/texmf/doc/man:$MANPATH; export MANPATH
+INFOPATH=/usr/local/texlive/2012/texmf/doc/<info:$INFOPATH>; export INFOPATH
+ 接着，在帮助文档/etc/manpath.config加入
+
+ MANPATH_MAP /usr/local/texlive/2012/bin/x86_64-linux /usr/local/texlive/2012/texmf/doc/man
+中文配置过程
+下载字体
+使用windows下的某些字体和Adobe字体。windows字体直接从C:\Windows\Fonts∼*拷贝即 可，adobe字体需要下载，直接google就能够找到，adobe字体是*.otf文件。 接下来创建Windows字体目录winfonts和Adobe字体目录adobefonts：
+sudo mkdir /usr/share/fonts/winfonts
+sudo mkdir /usr/share/fonts/adobefonts
+拷贝字体
+
+我的adobefonts文件夹下的字体有
+$ ls /usr/share/fonts/adobefonts/
+AdobeFangsongStd-Regular (v5.010).otf  AdobeHeitiStd-Regular.otf  AdobeKaitiStd-Regular (v5.010).otf  AdobeSongStd-Light.otf
+
+winfonts文件夹下的字体有
+ls /usr/share/fonts/winfonts/
+century_schoolbook_l_bold_italic.ttf  segoesc.ttf   serife.fon     simpfxo.ttf     STFANGSO.TTF   STXINGKA.TTF     sylfaen.ttf
+century_schoolbook_l_italic.ttf       segoeuib.ttf  simfang_0.ttf  simpo.ttf       STHUPO.TTF     STxinwei.ttf     symbol.ttf
+msyhbd.ttf                            segoeuii.ttf  simfang.ttf    simsunb.ttf     stkaiti.ttf    STzhongsong.ttf
+msyh.ttf                              segoeuil.ttf  simhei.ttf     simsun.ttc      STLITI.TTF     STZHONGS.TTF
+segoeprb.ttf                          segoeui.ttf   simkai_0.ttf   sserife.fon     STSONG.TTF     SURsong.ttf
+segoepr.ttf                           segoeuiz.ttf  simkai.ttf     STcaiyun.ttf    STxihei.ttf    svgafix.fon
+segoescb.ttf                          seguisb.ttf   simpbdo.ttf    STfangsong.ttf  STxingkai.ttf  svgasys.fon
+
+将windows字体和adobe字体拷贝到相应的目录之后，修改文件夹下文件的权限为可读可写. 
+sudo chmod 644 /usr/share/fonts/winfonts/*
+sudo chmod 644 /usr/share/fonts/adobefonts/*
+
+更新字体库
+sudo mkfontscale
+sudo mkfontdir
+sudo fc-cache -fsv
+
+查看
+系统支持的字体：　　
+fc-list | sort
+查看系统支持的中文字体：　　
+
+fc-list :lang=zh | sort
+texlive中文配置
+如果使用xeLATEX的话，需要xeCJK宏包的支持，需要修改 /usr/local/texlive/2012/texmf-dist/tex/latex/ctex/fontset 的 ctex-xecjk-winfonts.def。修改原来的文件如下 
+
+% ctex-xecjk-winfonts.def: Windows 的 xeCJK 字体设置，默认为六种中易字体
+% vim:ft=tex
+\setCJKmainfont[BoldFont={SimHei},ItalicFont={KaiTi}]{SimSun}
+\setCJKsansfont{SimHei}
+\setCJKmonofont{FangSong}
+\setCJKfamilyfont{zhsong}{SimSun}
+\setCJKfamilyfont{zhhei}{SimHei}
+\setCJKfamilyfont{zhkai}{KaiTi}
+\setCJKfamilyfont{zhfs}{FangSong}
+% \setCJKfamilyfont{zhli}{LiSu}
+% \setCJKfamilyfont{zhyou}{YouYuan}
+\newcommand*{\songti}{\CJKfamily{zhsong}} % 宋体
+\newcommand*{\heiti}{\CJKfamily{zhhei}}   % 黑体
+\newcommand*{\kaishu}{\CJKfamily{zhkai}}  % 楷书
+\newcommand*{\fangsong}{\CJKfamily{zhfs}} % 仿宋
+% \newcommand*{\lishu}{\CJKfamily{zhli}}    % 隶书
+% \newcommand*{\youyuan}{\CJKfamily{zhyou}} % 幼圆
+\endinput
+
+auctex
+直接google上面找到的源码，放到emacs配置目录/home/username/.emacs.d中，并在emacs 配文件/home/username/.emacs中添加了一段配置脚本，配置脚本中的preview-latex.el可能auctex中没有，直接用这个文件名称google之，很容易找到。找到之后将这个文件放在auctex解压缩之后的目录中，和auctex.el在一起即可。
+
+
+
+
