@@ -172,7 +172,7 @@ make install
 (lambda()
 (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 (setq TeX-command-default "XeLaTeX")))
-就可以使用C-c C-c编译tex文件，使用C-c C-v使用evince阅读生成的pdf文件。
+就可以使用C-c C-c编译tex文件(C-c C-c后default提示输入：XeLaTeX)，使用C-c C-v使用evince阅读生成的pdf文件。
 
 latex中文支持
 环境
@@ -282,6 +282,31 @@ texlive中文配置
 auctex
 直接google上面找到的源码，放到emacs配置目录/home/username/.emacs.d中，并在emacs 配文件/home/username/.emacs中添加了一段配置脚本，配置脚本中的preview-latex.el可能auctex中没有，直接用这个文件名称google之，很容易找到。找到之后将这个文件放在auctex解压缩之后的目录中，和auctex.el在一起即可。
 
+
+
+
+
+快捷方式：
+1.M-^接到上一行尾。
+2.c-u c-o c-u删除光标到行首。类似c-0 c-k。
+3.buffer is readonly 退出该模式：c-x c-q。
+4.M-\删除本行空格至单词尾。
+5.c-x h全选。
+6.M-x替换replace-reginxp
+7.c-we删除光标之后所有的字符。
+8.删除到行首。
+9.c-u, 8, c-x, tab选中块向右移动8个字符。
+  c-u, -8, c-x, tab选中块向左移动8个字符。
+10.c-@标记选中的开始或者结束，然后方向键。
+11.c-M-h选中函数。
+12.m-h标记（选中）段落。
+13.C-S-M-F选中字符串。
+14.M-x:comment-regin注销选中区域
+15.M-x:uncomment-regin取消选中区域
+16.ecb-change-layout:left-sysmbolldef
+17.sudo update-manager -d从低版本向高版本升级。
+18.让光标跳到一行的首字母的前面c-a c-i
+19.c-i跳四个空格，M-i跳8个空格。
 
 
 
