@@ -307,6 +307,7 @@ auctex
 17.sudo update-manager -d从低版本向高版本升级。
 18.让光标跳到一行的首字母的前面c-a c-i
 19.c-i跳四个空格，M-i跳8个空格。
-
+20.C-c C-c编译tex文件(C-c C-c后default提示输入：XeLaTeX)，使用C-c C-v使用evince阅读生成的pdf文件。
+21.用cscope看代码，c-x 0关闭当前窗口，c-x 1关闭其他窗口。
 
 
