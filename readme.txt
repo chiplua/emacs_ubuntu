@@ -28,7 +28,8 @@
                 (c).M-x eval-buffer
                 (d).M-x cedet-build-in-default-emacs
                 (e).编译过程中如果发生超过emacs堆栈大小的错误，退出emacs再重新编译即可。
-
+(6)安装auctex: sudo apt-get install auctex.
+(7)安装
 
 
 
@@ -154,7 +155,7 @@ sudo apt-get install emacs
 安装texlive。下载安装之。
 从gnu网站下载auctex-11.85（http://www.gnu.org/software/auctex/ ），例如下载到主目录下，解压。
 cd auctex-11.85
-./config --with-emacs #（注意--with-emacs参数，如果不使用此参数，emacs找不到auctex）
+./configure --with-emacs #（注意--with-emacs参数，如果不使用此参数，emacs找不到auctex）
 make
 make install
 安装完成。
