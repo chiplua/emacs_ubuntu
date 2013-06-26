@@ -280,11 +280,10 @@ texlive中文配置
 % \newcommand*{\youyuan}{\CJKfamily{zhyou}} % 幼圆
 \endinput
 
-auctex
-直接google上面找到的源码，放到emacs配置目录/home/username/.emacs.d中，并在emacs 配文件/home/username/.emacs中添加了一段配置脚本，配置脚本中的preview-latex.el可能auctex中没有，直接用这个文件名称google之，很容易找到。找到之后将这个文件放在auctex解压缩之后的目录中，和auctex.el在一起即可。
-
-对于在Letex中什么时候需要加$（必须要成对出现）,什么情况下才需啊加$? m_n这样的格式就需要添加，添加后如下：$m_n$
-
+对于auctex
+1.直接google上面找到的源码，放到emacs配置目录/home/username/.emacs.d中，并在emacs 配文件/home/username/.emacs中添加了一段配置脚本，配置脚本中的preview-latex.el可能auctex中没有，直接用这个文件名称google之，很容易找到。找到之后将这个文件放在auctex解压缩之后的目录中，和auctex.el在一起即可。
+2.对于在Letex中什么时候需要加$（必须要成对出现）,什么情况下才需啊加$? m_n这样的格式就需要添加，添加后如下：$m_n$
+3.对于要查看pdf文档的命令应该是：c-c,c-v。一般用c-c,c-l是查看编译的结果。
 
 
 
