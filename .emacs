@@ -555,6 +555,11 @@ nil
 (lambda()
 (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 (setq TeX-command-default "XeLaTeX")))
+;添加环境变量
+(setenv "PATH" (concat "/usr/local/texlive/2012/bin/x86_64-linux/:" (getenv "PATH")))
+      (setq exec-path (append '("/usr/texbin" "/usr/local/texlive/2012/bin/x86_64-linux/") exec-path)) 
+
+
 
 
 
