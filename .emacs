@@ -344,7 +344,8 @@
 ;(global-set-key (kbd "C-2") 'window_move_right)
 (global-set-key (kbd "C-2") 'ecb-window-left-mini)
 (global-set-key (kbd "C-3") 'ecb-window-right)
-
+(global-set-key (kbd "C-4") 'delete-window)
+(global-set-key (kbd "C-5") 'delete-otherwindows)
 
 
 
@@ -558,7 +559,6 @@ nil
 ;添加环境变量
 (setenv "PATH" (concat "/usr/local/texlive/2012/bin/x86_64-linux/:" (getenv "PATH")))
       (setq exec-path (append '("/usr/texbin" "/usr/local/texlive/2012/bin/x86_64-linux/") exec-path)) 
-
 
 
 
