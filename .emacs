@@ -345,7 +345,7 @@
 (global-set-key (kbd "C-2") 'ecb-window-left-mini)
 (global-set-key (kbd "C-3") 'ecb-window-right)
 (global-set-key (kbd "C-4") 'delete-window)
-(global-set-key (kbd "C-5") 'delete-otherwindows)
+(global-set-key (kbd "C-5") 'delete-other-windows)
 
 
 
