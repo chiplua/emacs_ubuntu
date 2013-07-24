@@ -312,4 +312,4 @@ texlive中文配置
 20.C-c C-c编译tex文件(C-c C-c后default提示输入：XeLaTeX)，使用C-c C-v使用evince阅读生成的pdf文件。
 21.用cscope看代码，c-x 0关闭当前窗口，c-x 1关闭其他窗口。
 22.org-mode中从一个标题跳转到下一个标题的命令：前跳：c-c c-p 后跳：c-c c-n
-
+23.auctex（.tex文件）Ctrl+C+E,然后在mini buffer里输入XXX,就自动出现＼begin ｛XXX｝．．．＼end｛XXX｝
