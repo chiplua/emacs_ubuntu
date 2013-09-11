@@ -313,3 +313,4 @@ texlive中文配置
 21.用cscope看代码，c-x 0关闭当前窗口，c-x 1关闭其他窗口。
 22.org-mode中从一个标题跳转到下一个标题的命令：前跳：c-c c-p 后跳：c-c c-n
 23.auctex（.tex文件）Ctrl+C+E,然后在mini buffer里输入XXX,就自动出现＼begin ｛XXX｝．．．＼end｛XXX｝
+24.光标跳转到配对的括号c-m-n,c-m-p
