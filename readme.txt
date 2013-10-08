@@ -41,7 +41,13 @@ find . -name "*.cpp" -o -name "*.c" -o -name "*.h" > cscope.files
 # 根据cscope.files生成database
 cscope -b -i cscope.files
 这样也太麻烦了把？！其实大家都这么想，在cscope的源代码包中，在contrib/xcscope中有一个文件cscope-indexer,就完成了上述功能，搜索文件夹，并且建cscope的index,比如opensuse并没有把这个文件打到cscope的包中，所以建议大家自己去下载源代码包,把这个文件拷贝到/bin下面，就可以直接用了。
-
+cscope-indexer对java文件支持：
+cscope-indexer 默认只会扫描 C/C++ 的源码文件。所以其实只要修改 cscope-indexer，把第 140 行从原来的   egrep -i '\.([chly](xx|pp)*|cc|hh)$' | \
+改为：
+ egrep -i '\.([chly](xx|pp)*|cc|hh|java|aidl)$' | \
+ 之后就可以用c-c s I在eamcs中创建Android项目的索引了。
+ 在~/.emacs.d/下的cscope-indexer的140行已经做好了修好。每次重新安装完cscope之后要把
+ sudo cp ~/.emacs.d/cscope-indexer /usr/bin/cscope-indexer
 
 2. 搜索的跳转
 快捷键可以根据自己的喜好定义,先运行 M-x cscope-index-files，生成代码的index。用cscope-find-global-definition-no-prompting跳转到定义，用cscope-find-this-symbol搜索所有的引用xcscope.el也比较简单，很多配置项都写死了，没法修改，比如在跳出的cscope窗口中,选择要跳转到哪一个位置,有2种方式一个是光标移动到函数位置，按回车。令一个是用鼠标中键点击。第2种方式是在是太奇怪了，我想把它改到鼠标左键上,修改xcscope.el文件,mouse-2改成mouse-1就大功告成
@@ -145,8 +151,13 @@ $ cscope-indexer-java -r    (最后一步用单个命令生成JAVA的cscope.file
 7.auto-complete自动不全的网址http://cx4a.org/software/auto-complete/   http://emacser.com/emacs-gccsense.htm该网址中gccsense并没有添加。
 
 
-
-8:Ubuntu 使用emacs+auctex编译tex文档
+auctex
+1.直接google上面找到的源码，放到emacs配置目录/home/username/.emacs.d中，并在emacs 配文件/home/username/.emacs中添加了一段配置脚本，配置脚本中的preview-latex.el可能auctex中没有，直接用这个文件名称google之，很容易找到。找到之后将这个文件放在auctex解压缩之后的目录中，和auctex.el在一起即可。
+2.对于在Letex中什么时候需要加$（必须要成对出现）,什么情况下才需啊加$? m_n这样的格式就需要添加，添加后如下：$m_n$
+3.对于要查看pdf文档的命令应该是：c-c,c-v。一般用c-c,c-l是查看编译的结果。
+4.对于org-mode要生成html文件的花，需要执行的命令为c-c,c-e,c-h
+5.Org-mode加了下划线输出成html时老是要变成下标，现在已解决：只要在文件头写上#+OPTIONS: ^:nil即可
+6.Ubuntu 使用emacs+auctex编译tex文档
 首先是安装emacs
 sudo apt-get install emacs
 搞定。
@@ -195,7 +206,6 @@ texlive2012
 sudo apt-get install perl-tk
 
 安装texlive2012：
-
 /mnt/disk/install-tl -–gui
 在出现的安装界面中，第二步需要选择语言支持，默认是全选的，但有些基本上用不上，我 选的是CJK（中日韩文）和英文；其他的就默认安装即可；
 
@@ -280,12 +290,132 @@ texlive中文配置
 % \newcommand*{\youyuan}{\CJKfamily{zhyou}} % 幼圆
 \endinput
 
-对于auctex
-1.直接google上面找到的源码，放到emacs配置目录/home/username/.emacs.d中，并在emacs 配文件/home/username/.emacs中添加了一段配置脚本，配置脚本中的preview-latex.el可能auctex中没有，直接用这个文件名称google之，很容易找到。找到之后将这个文件放在auctex解压缩之后的目录中，和auctex.el在一起即可。
-2.对于在Letex中什么时候需要加$（必须要成对出现）,什么情况下才需啊加$? m_n这样的格式就需要添加，添加后如下：$m_n$
-3.对于要查看pdf文档的命令应该是：c-c,c-v。一般用c-c,c-l是查看编译的结果。
-4.对于org-mode要生成html文件的花，需要执行的命令为c-c,c-e,c-h
-5.Org-mode加了下划线输出成html时老是要变成下标，现在已解决：只要在文件头写上#+OPTIONS: ^:nil即可
+
+
+
+org-mode
+先是基本语法：
+1.常见使用
+*加粗* 加粗
+/倾斜/ 倾斜
+_下划线_ 下划线
+
+导出文件的标题在特定行给出
+#+TITLE: This is the title of the document
+
+目录表通常会直接插入在文档第一个标题之前
+#+OPTIONS: toc:2 (目录中只显示二级标题)
+#+OPTIONS: toc:nil (无目录)
+
+当从另外一个文档中引用一段话时通过会让它左右都缩进
+#+BEGIN_QUOTE
+Everything should be made as simple as possible,
+but not any simpler -- Albert Einstein
+#+END_QUOTE
+
+如果你想让某些文本居中
+#+BEGIN_CENTER
+Everything should be made as simple as possible, \\
+but not any simpler
+#+END_CENTER
+
+这是一个很奇葩的功能，当你使用这句语法的时候，输出html，会自动播放你指定的音乐……
+#<bgsound src="d:/自用/0/Music/1.mp3" loop=5>
+“loop”表示循环次数。
+
+当导出文档时，你可以包含其他文件中的内容。比如，想包含你的“.emacs”文件，你可以用：
+#+begin_src org
+, #+INCLUDE: "~/.emacs" src emacs-lisp
+#+end_src
+可选的第二个第三个参数是组织方式（例如，“quote”，“example”，或者“src”），如果是 “src”，语言用来格式化内容。组织方式是可选的，如果不给出，文本会被当作 Org 模式的正常处理。用 C-c , 访问包含的文件。
+
+当 Org 标题含有很多星号并且标题下面的文字缩进
+* Top level headline
+** Second level
+*** 3rd level
+some text
+*** 3rd level
+more text
+* Another top level headline
+如果你用的 Emacs 23.1.50.3 和 Org 6.29 的更高版本，这种视图可以用 org-indent-mode 模式动态地实现。也可以通过设置变量 org-startup-indented 为所有的文件打开 org-indent-mode 模式，或者用
+#+STARTUP: indent
+
+如果你希望为图片定义一个标题，或者一个标签方便内部交叉引用，可以让图片单独一行
+#+CAPTION: This is the caption for the next figure link (or table)
+#+LABEL: fig:SED-HR4049
+[[./img/a.jpg]]
+
+对于需要包含数学符号和特殊方程的科学笔记，Org 模式支持嵌入 LaTeX 代码到文件中。你可以直接使用类 TeX 的宏来输入特殊符号，输入方程，或者整个 LaTeX 环境。
+#+begin_src org
+,Angles are written as Greek letters \alpha, \beta and \gamma. The mass if
+,the sun is M_sun = 1.989 x 10^30 kg. The radius of the sun is R_{sun} =
+,6.96 x 10^8 m. If $a^2=b$ and $b=2$, then the solution must be either
+,$a=+\sqrt{2}$ or $a=-\sqrt{2}$.
+,\begin{equation}
+,x=\sqrt{b}
+,\end{equation}
+#+end_src
+特殊设置之后，导出 HTML 时 LaTeX 代码片断会生成图片并包含进来。
+
+关于链接
+C-c C-l	编辑链接
+C-c C-o	打开链接
+链接的格式
+[[link][description]] 或者 [[link]]
+常用link类型
+http://www.sina.com Web
+file:paper/lastdoc.pdf 本地文档，用相对路径表示
+file:/path/to/filename 本地文档，用绝对路径表示
+news:comp.emacs 新闻组
+caole82@gmail.com 邮件地址
+
+关于自定义css
+#+STYLE: <link rel="emacs" type="/home/mudan/Documents/org/css" href="emacs.css" /> 自定义css
+#test{font-size:14px;} 设置字体大小
+下面贴一下我的自定义css：
+#+STYLE: <link rel="stylesheet" type="text/css" href="C:/Documents and Settings/Mu/My Documents/worg.css" />
+#+INFOJS_OPT: view:info mouse:underline up:think_world.html home:http://www.orgmode.org toc:t
+我有几个挺好的css文件，打包了一下，可以在链接中下载：http://pan.baidu.com/share/link?shareid=151940&uk=1963878638
+
+段落、分行和引用
+段落之间至少要有一空行。如果你想实现段内分行，可以在行后加上“\\”。
+要想在一个区域内实现分行，而其他地方使用正常格式，你可以使用下面的语法实行：
+#+BEGIN_VERSE
+Great clouds overhead
+Tiny black birds rise and fall
+Snow covers Emacs
+-- AlexSchroeder
+#+END_VERSE
+
+排版源码
+#+begin_src 语言
+...
+#+end_src 
+例如：
+#+begin_src c -t -h 7 -w 40
+int main(void)
+{
+printf("Hello, World!\n");
+return 0;
+}
+#+end_src
+语法详解：
+-n 显示行号
+-t 清除格式
+-h 7 设置高度为 7 行
+-w 40 设置宽度为 40 列
+
+关于导出
+C-c C-e l	导出 LaTeX 文件
+C-c C-e p	导出 LaTeX 文件，并处理成 PDF 文件（需要格外的LaTeX软件支持）
+C-c C-e d	导出 LaTeX 文件，处理成 PDF 文件，并打开
+C-c C-e D	导出 DocBook 文件
+C-c C-e a	导出 ASCII 文件
+C-c C-e 用来导出和发布的调度器（我通常使用这个命令，然后在里面选择导出格式）
+当导出文档时，你可以包含其他文件中的内容
+#+INCLUDE: "~/.emacs" src emacs-lisp
+
+
 
 
 快捷方式：
@@ -311,6 +441,11 @@ texlive中文配置
 19.c-i跳四个空格，M-i跳8个空格。
 20.C-c C-c编译tex文件(C-c C-c后default提示输入：XeLaTeX)，使用C-c C-v使用evince阅读生成的pdf文件。
 21.用cscope看代码，c-x 0关闭当前窗口，c-x 1关闭其他窗口。
-22.org-mode中从一个标题跳转到下一个标题的命令：前跳：c-c c-p 后跳：c-c c-n
+22.org-mode中从一个标题跳转到下一个标题的命令：前跳：c-c c-p 后跳：c-c c-n; M-Tab展开所有的子目录
 23.auctex（.tex文件）Ctrl+C+E,然后在mini buffer里输入XXX,就自动出现＼begin ｛XXX｝．．．＼end｛XXX｝
 24.光标跳转到配对的括号c-m-n,c-m-p
+
+
+
+
+
