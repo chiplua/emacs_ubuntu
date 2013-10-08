@@ -563,4 +563,9 @@ nil
 
 
 
+;增加org-mode自动换行
+(add-hook 'org-mode-hook (lambda () (setq truncate-lines nil)))
+
+
+
 
