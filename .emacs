@@ -436,7 +436,7 @@ nil
 
 
 ;;设置Alt+Enter为自动补全菜单
-(global-set-key [(meta return)] 'semantic-ia-complete-symbol-menu) 
+(global-set-key [backtab] 'semantic-ia-complete-symbol-menu)
 ;;切换到编辑窗口
 (global-set-key [C-\;] 'ecb-goto-window-edit-last)
 ;;切换到函数窗口 
