@@ -803,7 +803,7 @@ S-RIGHT/LEFT 将与当前行相关的时间戳改变一天
 22.org-mode中从一个标题跳转到下一个标题的命令：前跳：c-c c-p 后跳：c-c c-n; M-Tab展开所有的子目录
 23.auctex（.tex文件）Ctrl+C+E,然后在mini buffer里输入XXX,就自动出现＼begin ｛XXX｝．．．＼end｛XXX｝
 24.光标跳转到配对的括号c-m-n,c-m-p
-
+25.光标在函数中，要跳到该函数的头后者尾，用C-M-a,C-M-e
 
 
 
