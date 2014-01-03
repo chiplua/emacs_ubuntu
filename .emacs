@@ -296,12 +296,13 @@
 ;把 cscope 窗口放到 ecb 的窗口中
 (ecb-layout-define "my-cscope-layout" left nil
 (ecb-set-methods-buffer)
-(ecb-split-ver 0.5 t)
-(other-window 1)
+;(ecb-split-ver 0.5 t)
+;(other-window 1)
 ;(ecb-set-history-buffer)       ;;chiplua
 ;(ecb-split-ver 0.5 t)		;;chiplua
 ;(other-window 1)		;;chiplua
-(ecb-set-cscope-buffer))
+;(ecb-set-cscope-buffer))
+)
 (defecb-window-dedicator ecb-set-cscope-buffer " *ECB cscope-buf*"
 (switch-to-buffer "*cscope*"))
 (setq ecb-layout-name "my-cscope-layout")
