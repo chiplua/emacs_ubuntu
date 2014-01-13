@@ -35,6 +35,8 @@
 (require 'ibus)
 (global-set-key (kbd "C-SPC") 'ibus-toggle)
 (ibus-define-common-key ?\C-\s nil)
+;;use C-* for undo command
+(global-set-key [C-*] 'ibus-receive-event)
 ;; Change cursor color depending on IBus status
 (setq ibus-cursor-color '("red" "blue" "limegreen"))
 
