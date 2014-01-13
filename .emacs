@@ -89,7 +89,7 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(cscope-display-cscope-buffer nil)
+; '(cscope-display-cscope-buffer nil)
  '(display-time-mode t)
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
@@ -301,10 +301,10 @@
 ;(ecb-split-ver 0.5 t)
 ;(other-window 1)
 ;(ecb-set-history-buffer)       ;;chiplua
-;(ecb-split-ver 0.5 t)		;;chiplua
-;(other-window 1)		;;chiplua
-;(ecb-set-cscope-buffer))
-)
+(ecb-split-ver 0.7 t)		;;chiplua
+(other-window 1)		;;chiplua
+(ecb-set-cscope-buffer))
+
 (defecb-window-dedicator ecb-set-cscope-buffer " *ECB cscope-buf*"
 (switch-to-buffer "*cscope*"))
 (setq ecb-layout-name "my-cscope-layout")
