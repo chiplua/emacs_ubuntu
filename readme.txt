@@ -804,7 +804,7 @@ S-RIGHT/LEFT 将与当前行相关的时间戳改变一天
 23.auctex（.tex文件）Ctrl+C+E,然后在mini buffer里输入XXX,就自动出现＼begin ｛XXX｝．．．＼end｛XXX｝
 24.光标跳转到配对的括号c-m-n,c-m-p
 25.光标在函数中，要跳到该函数的头后者尾，用C-M-a,C-M-e
-
+26.对于以空格开头的行，如果想从该行的行尾或者中间部分跳转到首个字符，用M-a
 
 
 
