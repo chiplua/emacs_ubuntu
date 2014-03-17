@@ -593,5 +593,15 @@ nil
 
 
 
+(defun my-goto-line ()
+  (interactive)
+  (unwind-protect (goto-line (string-to-number (read-from-minibuffer "Goto line: ")))
+))    
+(global-set-key "\M-gg" 'my-goto-line)
+
+
+
+
+
 
 
