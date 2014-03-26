@@ -186,6 +186,9 @@ is ineffectual unless `ibus-mode-local' is non-nil."
   :type 'boolean
   :group 'ibus-basic)
 
+
+;;(defun ibus-receive-event ())
+  
 (defun ibus-customize-isearch (var value)
   (set var value)
   (if (and (fboundp 'ibus-setup-isearch)
@@ -1387,7 +1390,7 @@ given, specifies a keymap variable to be updated."
     (ibus-log "update ibus-mode-map")
     (unless (keymapp ibus-mode-map)
       (setq ibus-mode-map (make-sparse-keymap)))
-    (define-key ibus-mode-map [ibus-receive-event] 'ibus-exec-callback)
+;;    (define-key ibus-mode-map [ibus-receive-event] 'ibus-exec-callback)
     (ibus-set-keymap-parent))
   (when (memq symbol '(nil ibus-preedit-function-key-list))
     (ibus-log "update ibus-mode-preedit-map")
@@ -2185,7 +2188,8 @@ respectively."
 	  (ibus-log "receive:\n%s" (buffer-string))
 	  (erase-buffer)
 	  (setq unread-command-events
-		(delq 'ibus-receive-event unread-command-events)))
+;;		(delq 'ibus-receive-event unread-command-events)
+		))
 	(if repl
 	    (ibus-process-signals repl passive)
 	  (unless noerror
@@ -2218,7 +2222,8 @@ respectively."
     (unless (eq last-command 'ibus-handle-event)
       (setq ibus-string-insertion-failed nil))
     (setq this-command last-command
-	  unread-command-events (delq 'ibus-receive-event unread-command-events)))
+;;	  unread-command-events (delq 'ibus-receive-event unread-command-events)
+	  ))
   (when (buffer-live-p ibus-current-buffer)
     (with-current-buffer ibus-current-buffer
       (ibus-log "callback queue: %s" (pp-to-string ibus-callback-queue))
@@ -2291,8 +2296,9 @@ respectively."
 		(nconc ibus-callback-queue queue1)
 	      (setq ibus-callback-queue queue1))
 	    (setq unread-command-events
-		  (cons 'ibus-receive-event
-			(delq 'ibus-receive-event unread-command-events)))
+;;		  (cons 'ibus-receive-event
+;;			(delq 'ibus-receive-event unread-command-events))
+		  )
 	    (if resume-preedit
 		(setq unread-command-events
 		      (cons ?a (cons 'ibus-resume-preedit unread-command-events)))))
@@ -3407,6 +3413,7 @@ positive, otherwise turn it off."
   `(menu-item ,(purecopy "Intelligent Input Bus (IBus)") ibus-mode
 	      :help "Support the input of various languages"
 	      :button (:toggle . (bound-and-true-p ibus-mode))))
+
 
 
 (provide 'ibus)
