@@ -63,7 +63,7 @@
 ;配置cedet和ecb
 (load-file "~/.emacs.d/cedet-1.1/common/cedet.el")
 (global-ede-mode 1)                      ; Enable the Project management system
-(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
+;;(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
 (global-srecode-minor-mode 1)            ; Enable template insertion menu
 ;minibuffer中显示函数的定义，原来时间差不多要3秒，现在改为0秒.
 (setq semantic-idle-scheduler-idle-time 1)
@@ -357,7 +357,7 @@
 (setq ecb-auto-activate t
 	ecb-tip-of-the-day nil)
  '(ecb-options-version "2.40")
-;(setq stack-trace-on-error t)
+(setq stack-trace-on-error t)
 (ecb-activate)
 (ecb-byte-compile)
 (switch-to-buffer "*scratch*") 
@@ -602,6 +602,12 @@ nil
 
 
 
-
+;;android MODE
+;; Omit the next line if installed through ELPA
+(add-to-list 'load-path "~/.emacs.d/android/")
+(require 'android-mode)
+(custom-set-variables '(android-mode-sdk-dir "~/.emacs.d/android/"))
+(setq android-mode-sdk-dir "~/tools/android-sdk-linux/android-sdk-linux/")
+(setq android-mode-avd "My_Android")
 
 
