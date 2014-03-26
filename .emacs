@@ -611,3 +611,11 @@ nil
 (setq android-mode-avd "My_Android")
 
 
+
+
+(load-file "~/.emacs.d/highlight/feng-highlight.el")
+(global-set-key (kbd "C-6") 'feng-highlight-at-point)
+
+
+
+
