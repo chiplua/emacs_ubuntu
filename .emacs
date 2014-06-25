@@ -624,3 +624,12 @@ nil
 
 
 
+;;增加纵向缩进提示线
+(load-file "~/.emacs.d/indent-guide/indent-guide.el")
+(require 'indent-guide)
+(indent-guide-global-mode)
+
+
+
+
+
