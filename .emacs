@@ -41,16 +41,25 @@
 
 
 
+;;添加括号自动补齐
+(defun my-mode-auto-pair ()  
+    (interactive)  (setq skeleton-pair t)
+    (local-set-key (kbd "(") 'skeleton-pair-insert-maybe)
+    (local-set-key (kbd "{") 'skeleton-pair-insert-maybe)
+    (local-set-key (kbd "`") 'skeleton-pair-insert-maybe)
+    (local-set-key (kbd "[") 'skeleton-pair-insert-maybe)
+    (local-set-key (kbd "\"") 'skeleton-pair-insert-maybe))
 ;在分别在C，C++，JAVA模式下在菜单栏中显示cscope
 (add-hook 'c-mode-hook (function cscope:hook))
+(add-hook 'c-mode-hook 'my-mode-auto-pair)
 (add-hook 'c++-mode-hook (function cscope:hook))
+(add-hook 'c++-mode-hook 'my-mode-auto-pair)
 (add-hook 'java-mode-hook (function cscope:hook))
+(add-hook 'java-mode-hook 'my-mode-auto-pair)
 (add-hook 'java-mode-hook (lambda ()
                                 (setq c-basic-offset 4
                                       tab-width 4
                                       indent-tabs-mode t)))
-
-
 
 
 
@@ -605,10 +614,6 @@ nil
   (unwind-protect (goto-line (string-to-number (read-from-minibuffer "Goto line: ")))
 ))    
 (global-set-key "\M-gg" 'my-goto-line)
-
-
-
-
 
 
 
