@@ -45,6 +45,12 @@
 (add-hook 'c-mode-hook (function cscope:hook))
 (add-hook 'c++-mode-hook (function cscope:hook))
 (add-hook 'java-mode-hook (function cscope:hook))
+(add-hook 'java-mode-hook (lambda ()
+                                (setq c-basic-offset 4
+                                      tab-width 4
+                                      indent-tabs-mode t)))
+
+
 
 
 
@@ -95,6 +101,7 @@
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(size-indication-mode t)
+ '(tab-stop-list (quote (4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)))
  '(transient-mark-mode (quote (only . t))))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
@@ -602,13 +609,6 @@ nil
 
 
 
-;;android MODE
-;; Omit the next line if installed through ELPA
-(add-to-list 'load-path "~/.emacs.d/android/")
-(require 'android-mode)
-(custom-set-variables '(android-mode-sdk-dir "~/.emacs.d/android/"))
-(setq android-mode-sdk-dir "~/tools/android-sdk-linux/android-sdk-linux/")
-(setq android-mode-avd "My_Android")
 
 
 
