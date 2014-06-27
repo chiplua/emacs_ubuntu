@@ -48,8 +48,7 @@
     (local-set-key (kbd "{") 'skeleton-pair-insert-maybe)
     (local-set-key (kbd "`") 'skeleton-pair-insert-maybe)
     (local-set-key (kbd "[") 'skeleton-pair-insert-maybe)
-    (local-set-key (kbd "\"") 'skeleton-pair-insert-maybe)
-    (local-set-key (kbd "<") 'skeleton-pair-insert-maybe))
+    (local-set-key (kbd "\"") 'skeleton-pair-insert-maybe))
 ;在分别在C，C++，JAVA模式下在菜单栏中显示cscope
 (add-hook 'c-mode-hook (function cscope:hook))
 (add-hook 'c-mode-hook 'my-mode-auto-pair)
