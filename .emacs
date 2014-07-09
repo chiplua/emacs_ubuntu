@@ -583,8 +583,9 @@ nil
 
 ;增加org-mode自动换行
 (add-hook 'org-mode-hook (lambda () (setq truncate-lines nil)))
-
-
+;remove the "Validate XHTML 1.0" message at the bottom of the page
+(setq org-html-validation-link nil)
+(setq org-export-html-validation-link nil)
 
 
 ;在org-mode中添加代码块的包含,M-X:org-insert-src-block
