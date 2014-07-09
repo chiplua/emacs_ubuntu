@@ -1,0 +1,76 @@
+#+TITLE:     config文件说明
+#+AUTHOR:    刘涛
+#+EMAIL:     liutao@haolianluo.com 
+#+DATE:      2014-03-20 
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t f:t *:t <:t author:nil creator:nil timestamp:nil
+##+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:info toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/org-info-js/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+EXPORT_AUTHOR: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+# (setq org-export-html-use-infojs t)
+##+OPTIONS: ^:nil  
+
+
+- 文档针对刷机项目，对于特定机型的配置文件的说明。
+- 文件内容格式:同INI文件。
+- 该说明只针对调用的脚本和参数做一些说明，对于C文件调用脚本该刷哪些包，以及一些逻辑判断不做说明。
+- 重启动作由C程序发起，脚本只负责被调用。  
+  
+* 格式定义
+: 同ini文件,实际的文件不含后面括号及括号中的内容
+: [config]
+: root = apk (或者fastboot, odin)
+: recovery = dd (或者flash_image)
+: sdcard = in_sd (或者ext_sd)  
+: recovery_partition_path = /dev/block/platform/dw_wc/by-name/RECOVERY (或者分区表)
+
+* 流程详解
+** 概述
+: C程序读取到手机的型号后，根据jason判断该款手机是否需要root(root_or_not),如果不需要root,则就会调用flash_package.sh并传递需要刷写的包作为参数，来安装对应的应用。
+: 传递的参数为: package_name(要刷写的包名)，package_name(要刷写的包的路径),package_type(要刷写的包的格式),sdcard(in_sd或者ext_sd)   
+: 如果该款手机需要root,则进入root模式，调用root.sh进行root.
+** 模式   
+*** apk root mode
+**** dd    
+: C程序读取config文件，当root字段的值为apk后，即调用root.sh来进行root.完毕之后，判断recovery字段的值，如果是dd，则调用flash_recovery.sh并传递参数给该脚本，
+:     
+: 传递的参数有mode(dd), path(recovery.img的路径), name(recovery.img的名字),recovery_partition_path(recovery分区的路径),sdcard(in_sd或者ext_sd)   
+: 脚本中的函数使用dd的命令为dd if=/sdcard/recovery.img of=/recovery_partition_path。
+:     
+: 脚本执行完毕，C程序接着调用flash_package.sh.
+: 传递的参数为: package_name(要刷写的包名)，package_name(要刷写的包的路径),package_type(要刷写的包的格式),sdcard(in_sd或者ext_sd)   
+: 最后C程序重启系统到recovery进入自动升级。     
+**** flash_image
+: 如果recovery的字段是flash_image，则调用flash_recovery.sh并传递参数给该脚本，
+:
+: 传递的参数有mode(falsh_image), path(recovery.img的路径)，name(recovery.img的名字),sdcard(in_sd或者ext_sd)   
+: 脚本中函数使用的命令为flash_image recovery recovery.img
+:     
+: 脚本执行完毕，C程序接着调用flash_package.sh.
+: 传递的参数为: package_name(要刷写的包名)，package_name(要刷写的包的路径),package_type(要刷写的包的格式),sdcard(in_sd或者ext_sd)   
+: 最后C程序重启系统到recovery进入自动升级。     
+*** fastboot root mode
+: C程序读到的config文件，当root字段的值为fastboot后，先重启系统（adb reboot fastboot）进入fastboot模式，然后调用flash_recovery.sh来进行root,(此时的root是指烧写hll制作的带有su的recovery.img)，
+:
+: 传递的参数为:mode(fastboot),path(recovery.img的路径), name(recovery.img的名字),脚本中的函数,sdcard(in_sd或者ext_sd)   
+: 使用的命令为fastboot flash recovery recovery.img
+: 接着C程序重启系统到正常模式，然后C程序重启系统到recovery模式，
+: 接着调用flash_package.sh,
+: 传递的参数为: package_name(要刷写的包名)，package_name(要刷写的包的路径),package_type(要刷写的包的格式),sdcard(in_sd或者ext_sd)   
+: 最后C程序重启系统到recovery进入自动升级。         
+    
+*** odin root mode
+: C程序读到的config文件，当root字段的值为odin后，先使用oding命令(adb reboot download)进入download模式。然后调用flash_recovery.sh来进行root,(此时的root是指烧写hll制作的带有su的recovery.img)，
+:
+: 传递的参数为: mode(odin), path(recovery.img的路径), name(recovery.img的名字),sdcard(in_sd或者ext_sd)   
+: 脚本中的函数使用的命令为(heimdall flash --recovery recovery.img),刷写完毕，系统会自动重启进入recovery模式。
+: 接着C程序调用flash_package.sh,
+: 传递的参数为: package_name(要刷写的包名)，package_name(要刷写的包的路径),package_type(要刷写的包的格式),sdcard(in_sd或者ext_sd)   
+: 最后C程序重启系统到recovery进入自动升级。         	
