@@ -1,0 +1,1364 @@
+#+TITLE:     Emacs + LaTeX 快速上手
+#+AUTHOR:    王晓林
+#+EMAIL:     wx672ster@gmail.com
+#+DATE:      2011-06-02 Thu
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:nil ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:info toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/org-info-js/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+# (setq org-export-html-use-infojs t)
+
+- 本教程完全针对本校D215机房Ubuntu系统中的Emacs和LaTeX配置。关于如何配置，请看[[http://cs3.swfc.edu.cn/~wx672/lecture_notes/linux/install.html][这里]]。
+- 本教程中涉及的LaTeX源文件和图片都可以在[[./][这里]]找到。
+* Emacs + AucTeX，60分钟快速入门
+  - 为什么非要推荐LaTeX？ :: 这完全是出于个人喜好。从1996年开始接触计算机到现在，Windows、UNIX、MS-Word、LaTeX 我都用过了。我觉得我该把我认为优秀的东西推荐给你。即使你不感兴趣，但做为计科专业的学生你应该知道它的存在。
+  - 为什么非要推荐Emacs？ :: 这不仅是出于个人喜好，也不仅是因为Emacs是最优秀的编辑器，我最基本的目的是，希望每一个计科专业的学生能熟练使用键盘。    
+
+** 放松心情
+   LaTeX很强大，但对于初学者来说，你不必关心它有多强大，因为最为常用的命令和环境不过就是那么几个。而且你也不必手工输入这些命令，只要你用Emacs+AucTeX，几个简单的快捷键就足以满足你的基本需求了。对于格式复杂的需求，通常你只要套用模版就可以解决问题了。所以，大家只要把Emacs用熟，一切迎刃而解。
+
+** 用LaTeX写文章就是在编程
+  我们先回忆一下用Emacs写一个 =hello.c= 的过程：
+  1. 打开Emacs；
+  2. 开始编辑一个新文件，名字叫 =hello.c= ：
+     : C-x C-f
+     在Emacs窗口的最下面（也就是 =mini buffer= 里）写上新文件的名字 =hello.c= ：
+     : hello.c
+     : C-j
+  3. 向文件里写东西：
+#+INCLUDE: "hello.c" src c
+     保存：
+     : C-x C-s
+     编译：
+     : gcc hello.c
+     运行：
+     : ./a.out
+
+  再来看一下用Emacs写一个 =hello.tex= 的过程：
+  1. 打开Emacs；
+  2. 开始编辑一个新文件，名字叫 =hello.tex= ：
+     : C-x C-f
+     在Emacs窗口的最下面（也就是 =mini buffer= 里）写上新文件的名字 =hello.tex= ：
+     : hello.tex
+     : C-j
+     : C-j
+  3. 向文件里写东西：
+#+INCLUDE: "hello.tex" src latex
+     保存：
+     : C-x C-s
+     编译：
+     : xelatex hello.tex
+     看结果：
+     : evince hello.pdf
+
+  怎么样？ =hello.c= 和 =hello.tex= 的编辑过程没什么分别吧。只要把Emacs用熟练，不管写什么程序，都是这么个过程。你
+  - 不必学习VC去写C/C++，
+  - 不必学习eclipse去写Java，
+  - 不必学习MS-Word去写报告、幻灯片，
+  - 不必学习……
+  一句话，“Everything Emacs”，可以省下大量不必要的学习时间。人生苦短，何必让你的生活被 =VC/eclipse/MS-Word= 搞得头昏脑胀呢？ *简单而强大，本就是计科专业学生和非专业学生应有的不同* 。
+
+  如果你对Emacs操作还很陌生，那么现在就打开Emacs
+  : C-h t
+  重温一下那些基本操作吧。
+
+*** 什么是 =C-x C-f= ？
+    这么说，
+    1. 把你的双手在标准键盘上放好，
+    2. 左手小指稍向左移，按在 =caps lock= 键上。按住别动。（D215机房的 =caps lock= 键被我们改成 =Control= 键了）
+    3. 小指按在 =caps lock= 上别放开，左手无名指稍向下移，在 =x= 键上按一下就放开，这就是 =C-x= 。
+    4. 小指按在 =caps lock= 上别放开，左手食指在 =f= 键上按一下，这就是 =C-f= 。现在左手各指都可以放开了。
+
+    这就是 =C-x C-f= ，作用是要求打开一个文件， =f= 代表 =file= 。那么，告诉我
+    - 什么是 =C-x C-s= ？
+    - 什么是 =C-x 2= ？什么是 =C-x 3= ？什么是 =C-x 0= ？什么是 =C-x 1= ？什么是 =C-x o= ？
+    - 什么是 =C-x h= ？什么是 =C-w= ？
+    - 什么是 =C-g= ？
+    - 什么是 =C-j= ？什么是 =C-i= ？
+    - 什么是 =C-/= ？
+    - 什么是 =C-k= ？什么是 =C-y= ？
+    - 什么是 =C-d= ？什么是 =M-d= ？(=M= 代表左 =Alt= 键)
+    - 什么是 =C-a= ？什么是 =C-e= ？什么是 =C-f= ？什么是 =C-b= ？什么是 =C-n= ？什么是 =C-p= ？
+      
+** 生活可以更轻松
+   AucTeX是Emacs的一个功能模块，为LaTeX编程提供了巨大的便利。有了AucTeX，你的LaTeX生活可以象 =Hello, world!= 一样简单。现在就跟着我，手把手地领略一下简单的乐趣吧。
+
+   一切当然是从打开Emacs开始：
+   : emacs&
+   现在开始编辑一个新文件 =simple.tex= ：
+   : C-x C-f
+   在 =mini buffer= 里会有提示，让你输入文件名。输入 =simple.tex= ，然后按 =C-j= 。
+
+   如果这时 =mini buffer= 里有如下提示：
+   : Master file: (default this file) ...
+   你直接按 =C-j= 就可以了。知道了吧， =C-j= 就是我们的“回车键”，而且比回车键更好用。
+
+   现在，开始向 =simple.tex= 文件里写东西了，用AucTeX的方式：
+   : C-c C-e
+   =e= 代表 =environment= 。“环境”到底是什么呢？意会吧，用用就明白了。
+   在 =mini buffer= 里会有提示，
+   : Environment type: (default document)
+   这是在问你是不是要写一篇文章啊？你当然该用 =C-j= 来告诉它“是”。
+
+   这时， =mini buffer= 又会提示，
+   : Document class: (default article)
+   这是在问你是不是要写一篇 =article= 类型的文件啊？还是用 =C-j= 来回答“是”。
+  
+   这时， =mini buffer= 又会提示，
+   : Options: 
+   这是在问你是否有什么特殊选项啊？用 =C-j= 来告诉它说“没有”。
+
+   现在，你的 =simple.tex= 文件里应该有这么几行东西了：
+#+begin_src latex -n
+\documentclass{article}  % Class有 article, book, report, letter...可供选择
+
+\begin{document} %文章的开始
+
+\end{document}   %文章的结束
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
+#+end_src
+   最后四行我们暂不关心。
+
+   在上一节里，你已经会写 =Hello, world!= 了。现在，我们要写点像模像样的东西，当然还是用简单的方式。为了更简单，我们直接套用Andrew Roberts写的 [[http://en.wikibooks.org/wiki/LaTeX/simple.tex][=simple.tex=]] 。我们把注意力放在用Emacs写文章的过程上。
+
+   确保你的光标在 =\begin{document}= 和 =\end{document}= 之间，也就是文章的第四行。然后按
+   : C-c C-m
+   这时 =mini buffer= 里会有如下提示：
+   : Macro (default ref): \
+   这是系统在等待你输入一个 =Macro= ，说白了就是“命令”。输入：
+   : title
+   : C-j
+   这时你的文章多了一行 =\title{}= 变成了这样：
+#+begin_src latex -n
+\documentclass{article}
+
+\begin{document}
+\title{}
+\end{document}
+#+end_src
+   光标停在 =\title{}= 的花括号里。不用说你也知道，该输入文章的标题了。那么就给它一个标题：
+#+begin_src latex  -n
+\documentclass{article}
+
+\begin{document}
+\title{How to Structure a \LaTeX{} Document}
+\end{document}
+#+end_src
+   发现了吗？凡是以反斜杠开头的都是命令， =\LaTeX{}= 也是。它的唯一作用就是把 \LaTeX 这五个字母输出成那副怪样子。
+
+   好了，现在另起一行，再
+   : C-c C-m
+   你肯定知道 =C-c C-m= 是干什么用的了吧？就是要输入一个 =LaTeX= 命令。 =mini buffer= 里又会有提示：
+   : Macro (default title): \
+   输入：
+   : author
+   : C-j
+   不用我说了吧？在 =\author{}= 的花括号里输入作者的名字。当然，也可以把自己的通信地址、email写在里面。就像下面这样：
+#+begin_src latex -n
+  \documentclass{article}
+  
+  \begin{document}
+  \title{How to Structure a \LaTeX{} Document}
+  \author{Andrew Roberts\\
+          School of Computing,\\
+          University of Leeds,\\
+          Leeds,\\
+          United Kingdom,\\
+          LS2 1HE\\
+          \emph{andyr@comp.leeds.ac.uk}}
+  \end{document}
+#+end_src
+   注意， =\\= 代表“强制换行”。
+
+   现在，另起一行，加上日期：
+   : C-c C-m
+   : date
+   : C-j
+   : C-c C-m
+   : today
+   : C-j
+   其实，没有 =\date{\today}= 这一句系统会自动把今天的日期添加上的。而且 =\date{}= 里面也不一定非要是当天的日期。
+   
+   title, author, date 一般被叫做文章的 =top matter= 。
+
+   现在 =C-j= 另起一行，写
+   : \maketitle
+   : C-j
+   =\maketitle= 自然是要排版 =top matter= 了。换句话说，不要标题的话可以省略掉这个命令。现在文章变成了这样：
+#+begin_src latex  -n
+  \documentclass{article}
+  
+  \begin{document}
+  \title{How to Structure a \LaTeX{} Document}
+  \author{Andrew Roberts\\
+    School of Computing,\\
+    University of Leeds,\\
+    Leeds,\\
+    United Kingdom,\\
+    LS2 1HE\\
+    \emph{andyr@comp.leeds.ac.uk}}
+  \date{\today}
+  \maketitle
+  
+  \end{document}
+#+end_src
+   好奇的话，现在可以编译一下，看看PDF文件的效果：
+   : C-c C-c
+   : C-j
+   : C-c C-v
+   如果你的 =xpdf= 没出毛病的话，一个PDF文件应该显示在屏幕上了。如果 =xpdf= 不正常，那么就打开命令行，敲：
+   : evince simple.pdf
+   效果还满意吧？保持你的好奇心。在下面的操作中，你随时可以编译一下看看效果。
+   
+   好了，回到emacs。现在你的光标应该停在 =\maketitle= 的下面一行。我们开始写“摘要”部分。敲键盘
+   : C-c C-e
+   前面我们已经见到过 =C-c C-e= 了，就是要开始一个“环境”。接着来， =mini buffer= 里现在又有提示了：
+   : Environment type: (default itemize)
+   是在问你要开始那种环境啊？告诉它：
+   : abstract
+   : C-j
+   =abstract= 就是“摘要”的意思。科技论文都是要有摘要的嘛。于是，你的文章变成了这样：
+#+begin_src latex -n 
+  \documentclass{article}
+  
+  \begin{document}
+    \title{How to Structure a \LaTeX{} Document}
+    \author{Andrew Roberts\\
+      School of Computing,\\
+      University of Leeds,\\
+      Leeds,\\
+      United Kingdom,\\
+      LS2 1HE\\
+      \emph{andyr@comp.leeds.ac.uk}}
+    \date{\today}
+  \maketitle
+  \begin{abstract}
+    
+  \end{abstract}
+  
+  \end{document}
+#+end_src
+   光标停在 =\begin{abstract}= 和 =\end{abstract}= 之间。好，现在往摘要部分里填点东西:
+#+begin_src latex -n
+  \documentclass{article}
+  
+  \begin{document}
+  
+    \title{How to Structure a \LaTeX{} Document}
+    \author{Andrew Roberts\\
+      School of Computing,\\
+      University of Leeds,\\
+      Leeds,\\
+      United Kingdom,\\
+      LS2 1HE\\
+      \emph{andyr@comp.leeds.ac.uk}}
+  
+  \maketitle
+  
+  \begin{abstract}
+  In this article, I shall discuss some of the fundamental topics in
+  producing a structured document.  This document itself does not go into
+  much depth, but is instead the output of an example of how to implement
+  structure. Its \LaTeX{} source, when in used with my tutorial
+  provides all the relevant information.
+  \end{abstract}
+  
+  \end{document}
+#+end_src
+   现在让我们开始文章的第一节：
+   : C-c C-s
+   =s= 代表 =section= ，“节”的意思。 =mini buffer= 提示：
+   : Level: (default section) 
+   也就是问你，是不是要起一个 =section= 啊？没错，我就是要起一个章节，于是直接 =C-j= 。
+
+   =mini buffer= 又提示：
+   : Title:
+   也就是问你，章节标题是……？那就给它个标题吧，就叫“ =Introduction= ”。 =C-j= 之后， =mini buffer= 继续提示：
+   : Label: sec:introduction
+   这是在问你，要不要给这个新章节打个标签，比如 =sec:introduction= ？以后也许要索引到它呢？这个暂时无关紧要， =C-j= 就是了。
+#+begin_src latex -n
+  \documentclass{article}
+  
+  \begin{document}
+  
+    \title{How to Structure a \LaTeX{} Document}
+    \author{Andrew Roberts\\
+      School of Computing,\\
+      University of Leeds,\\
+      Leeds,\\
+      United Kingdom,\\
+      LS2 1HE\\
+      \emph{andyr@comp.leeds.ac.uk}}
+  
+  \maketitle
+  
+  \begin{abstract}
+  In this article, I shall discuss some of the fundamental topics in
+  producing a structured document.  This document itself does not go into
+  much depth, but is instead the output of an example of how to implement
+  structure. Its \LaTeX{} source, when in used with my tutorial
+  provides all the relevant information.
+  \end{abstract}
+  
+  \section{Introduction}
+  \label{sec:introduction}
+  
+  \end{document}
+#+end_src
+
+   给这一节添加内容：
+#+begin_src latex -n
+  % 此处略去23行
+
+  \section{Introduction}
+  \label{sec:introduction}
+  
+  This small document is designed to illustrate how easy it is to create a well structured document
+  within \LaTeX\cite{lamport94}.  You should quickly be able to see how the article looks very
+  professional, despite the content being far from academic.  Titles, section headings, justified
+  text, text formatting etc., is all there, and you would be surprised when you see just how little
+  markup was required to get this output.
+  
+  \end{document}
+#+end_src
+
+   注意到了吗？在这一节里有一个新命令 =\cite{}= ，这是在引用一个参考文献。先不管它，后面再说。
+
+   如法炮制，再添加几个章节：
+#+begin_src latex -n
+  \documentclass{article}
+  
+  \begin{document}
+  
+    \title{How to Structure a \LaTeX{} Document}
+    \author{Andrew Roberts\\
+      School of Computing,\\
+      University of Leeds,\\
+      Leeds,\\
+      United Kingdom,\\
+      LS2 1HE\\
+      \emph{andyr@comp.leeds.ac.uk}}
+  
+  \maketitle
+  
+  \begin{abstract}
+  In this article, I shall discuss some of the fundamental topics in
+  producing a structured document.  This document itself does not go into
+  much depth, but is instead the output of an example of how to implement
+  structure. Its \LaTeX{} source, when in used with my tutorial
+  provides all the relevant information.
+  \end{abstract}
+  
+  \section{Introduction}
+  \label{sec:introduction}
+  
+  This small document is designed to illustrate how easy it is to create a well structured document
+  within \LaTeX\cite{lamport94}.  You should quickly be able to see how the article looks very
+  professional, despite the content being far from academic.  Titles, section headings, justified
+  text, text formatting etc., is all there, and you would be surprised when you see just how little
+  markup was required to get this output.
+  
+  \section{Structure}
+  One of the great advantages of \LaTeX{} is that all it needs to know is
+  the structure of a document, and then it will take care of the layout
+  and presentation itself.  So, here we shall begin looking at how exactly
+  you tell \LaTeX{} what it needs to know about your document.
+   
+  \subsection{Top Matter}
+  The first thing you normally have is a title of the document, as well as
+  information about the author and date of publication.  In \LaTeX{} terms,
+  this is all generally referred to as \emph{top matter}.
+  
+  \end{document}
+#+end_src
+   注意到 =\emph{}= 了吗？它代表 =emphasize= ，“强调”。英文习惯用斜体字来表示强调的东西，那么自然， =\emph{top matter}= 就是把 =top matter= 排版成 /top matter/ 了。
+
+   注意到 =\subsection{}= 了吗？一会儿，我们还会看到 =\subsubsection= 。不用解释吧。文章的章节次序是这样：
+   1. chapter
+   2. section
+   3. subsection
+   4. subsubsection
+   5. paragraph
+   6. subparagraph 
+   其中， =chapter= 是给 =book= 和 =report= 用的，而 =article= 是从 =section= 开始。
+
+   现在我们就来一个 =\subsubsection= 。不出所料的话，光标应该在第43行。那么就：
+   : C-c C-s
+   =mini buffer= 提示：
+   : Level: (default subsection)
+   当然输入：
+   : subsubsection
+   : C-j
+   =mini buffer= 提示：
+   : Title:
+   输入：
+   : Article Information
+   : C-j
+   =mini buffer= 提示：
+   : Label: sec:article-information
+   似曾相识吧？输入：
+   : C-j
+   那么，你看到的是：
+#+begin_src latex -n
+  % 此处删去43行……
+
+  \subsubsection{Article Information}
+  \label{sec:article-information}
+  
+  \end{document}
+#+end_src
+   也就是说，我们有了一个 =subsubsection= 。现在，我们再添加一个 =environment= ：
+   : C-c C-e
+   =mini buffer= 提示：
+   : Environment type: (default abstract)
+   我们当然不再需要 =abstract= 了，现在我们要的是 =itemize= ，也就是“不带序号的列表”。那么当然输入：
+   : itemize
+   : C-j
+   于是看到：
+#+begin_src latex -n
+  % 此处删去数十行……
+
+  \subsubsection{Article Information}
+  \label{sec:article-information}
+  
+  \begin{itemize}
+  \item 
+  \end{itemize}
+  
+  \end{document}
+#+end_src
+   光标停在 =\item= 的后面。非常好，这正是我想要的。直接输入如下文字：
+   : \verb|\title{}| --- The title of the article.
+   然后，
+   : M-return
+   也就是，左手拇指按住[alt]键，同时右手小指去敲回车键。你会看到这样的效果：
+#+begin_src latex -n
+  % 此处删去数十行……
+
+  \subsubsection{Article Information}
+  \label{sec:article-information}
+  
+  \begin{itemize}
+  \item \verb|\title{}| --- The title of the article.
+  \item 
+  \end{itemize}
+  
+  \end{document}
+#+end_src
+   也就是说，不仅换了行，而且自动有了 =\item= 等待你输入新的东西。
+
+   你一定注意到了 =\verb||= 这个新命令。它的作用和bash命令行的单引号 (=’=) 是一样的。还记得吧，在命令行，单引号里的东西是原样输出的。 =\verb||= 里的东西也一样。 =verb= 是 =verbatim= 一词的缩写，就是“原样引用”的意思。好奇的话，就 =C-c C-c= 一下，看看效果。
+
+   好，继续输入：
+   : \verb|\date| --- The date. Use:
+   得到：
+#+begin_src latex -n
+  % 此处删去数十行……
+
+  \subsubsection{Article Information}
+  \label{sec:article-information}
+  
+  \begin{itemize}
+  \item \verb|\title{}| --- The title of the article.
+  \item \verb|\date| --- The date. Use:
+  \end{itemize}
+  
+  \end{document}
+#+end_src
+   没什么好说的。现在我们要在 =itemize= 环境里面再来一个 =itemize= 。光标现在应该在 =Use:= 的后面。敲：
+   : C-c C-e
+   : C-j
+   于是得到：
+#+begin_src latex -n
+  % 此处删去数十行……
+
+  \subsubsection{Article Information}
+  \label{sec:article-information}
+  
+  \begin{itemize}
+  \item \verb|\title{}| --- The title of the article.
+  \item \verb|\date| --- The date. Use:
+    \begin{itemize}
+    \item 
+    \end{itemize}
+  
+  \end{itemize}
+  
+  \end{document}
+#+end_src
+   简单吧？不用说了，你肯定知道下面这些是怎么来的了吧。
+#+begin_src latex -n
+  % 此处删去数十行……
+
+  \subsubsection{Article Information}
+  \label{sec:article-information}
+  
+  \begin{itemize}
+  \item \verb|\title{}| --- The title of the article.
+  \item \verb|\date| --- The date. Use:
+    \begin{itemize}
+    \item \verb|\date{\today}| --- to get the date that the document is typeset.
+    \item \verb|\date{}| --- for no date.
+    \end{itemize}
+  \end{itemize}
+  
+  \end{document}
+#+end_src
+   编译一下，看看效果吧。
+
+   好了，请你现在照猫画虎，再来一个 =subsubsection= ，标题叫 =Author Information= 。模仿上面的东西，来得到下面的东西：
+#+begin_src latex -n
+  % 此处删去数十行……
+
+  \subsubsection{Author Information}
+  \label{sec:author-information}
+  The basic article class only provides the one command:
+  \begin{itemize}
+  \item \verb|\author{}| --- The author of the document.
+  \end{itemize}
+  
+  It is common to not only include the author name, but to insert new lines (\verb|\\|) after and add
+  things such as address and email details.  For a slightly more logical approach, use the AMS article
+  class (\emph{amsart}) and you have the following extra commands:
+  \begin{itemize}
+  \item \verb|address| --- The author's address.  Use the new line command (\verb|\\|) for line
+    breaks.
+  \item \verb|thanks| --- Where you put any acknowledgments.
+  \item \verb|email| --- The author's email address.
+  \item \verb|urladdr| --- The URL for the author's web page.
+  \end{itemize}
+  \end{document}
+#+end_src
+   怎么样，不太困难吧？ =C-c C-s=, =C-c C-e=, =C-j=, =M-return= 总该会用了吧。
+
+   下面让我们再起一个小节：
+   : C-c C-s
+   : subsection
+   : C-j
+   : Sectioning Commands
+   : C-j
+   : C-j
+   得到：
+#+begin_src latex -n 
+% 此处删去数十行……
+
+\subsection{Sectioning Commands}
+\label{sec:sectioning-commands}
+
+\end{document}
+#+end_src
+   添加一些文字：
+#+begin_src latex -n 
+% 此处删去数十行……
+
+\subsection{Sectioning Commands}
+\label{sec:sectioning-commands}
+
+The commands for inserting sections are fairly intuitive.  Of course,
+certain commands are appropriate to different document classes.
+For example, a book has chapters but a article doesn't.
+ 
+%A simple table.  The center environment is first set up, otherwise the
+%table is left aligned.  The tabular environment is what tells Latex
+%that the data within is data for the table.
+
+\end{document}
+#+end_src
+   你应该能猜到，凡是跟在 =%= 后面的都是注释。
+
+   在这一小节，我们来尝试一下表格的输入。
+
+   先起一个新“环境”，叫 =center= ：
+   : C-c C-e
+   : center
+   : C-j
+   得到：
+#+begin_src latex -n 
+% 此处删去数十行……
+
+\subsection{Sectioning Commands}
+\label{sec:sectioning-commands}
+The commands for inserting sections are fairly intuitive.  Of course,
+certain commands are appropriate to different document classes.
+For example, a book has chapters but a article doesn't.
+ 
+%A simple table.  The center environment is first set up, otherwise the
+%table is left aligned.  The tabular environment is what tells Latex
+%that the data within is data for the table.
+
+\begin{center}
+    
+\end{center}
+\end{document}
+
+#+end_src
+   =center= 当然是“居中”的意思了。在 =center= 环境里面，我们添加一个 =tabular= 环境：
+   : C-c C-e
+   : tabular
+   : C-j
+   这时你会看到这样的提示：
+   : (Optional) Position:
+   直接 =C-j= ，又看到提示了：
+   : Format:
+   这是问你，表格的格式……有几列？每列之间要不要有竖线分割？……我的答案是这样：
+   : |l|l|
+   也就是：竖线（|）小写L（l）竖线（|）小写L（l）竖线（|）。小写L代表 =left= ，也就是“左对齐”的意思。那么，你应该恍然大悟了，不就是……竖线-左对齐-竖线-左对齐-竖线嘛。那么，举一反三，除了小写L，我们还会见到r（右对齐）和c（居中）。现在，
+   : C-j
+   得到如下结果：
+#+begin_src latex -n 
+% 此处删去数十行……
+
+\subsection{Sectioning Commands}
+\label{sec:sectioning-commands}
+The commands for inserting sections are fairly intuitive.  Of course,
+certain commands are appropriate to different document classes.
+For example, a book has chapters but a article doesn't.
+ 
+%A simple table.  The center environment is first set up, otherwise the
+%table is left aligned.  The tabular environment is what tells Latex
+%that the data within is data for the table.
+
+\begin{center}
+  \begin{tabular}{|l|l|}
+      
+  \end{tabular}
+\end{center}
+#+end_src
+   表格环境里也是可以有注释的：
+#+begin_src latex -n 
+  % 此处删去数十行……
+
+  \subsection{Sectioning Commands}
+  \label{sec:sectioning-commands}
+  The commands for inserting sections are fairly intuitive.  Of course,
+  certain commands are appropriate to different document classes.
+  For example, a book has chapters but a article doesn't.
+   
+  %A simple table.  The center environment is first set up, otherwise the
+  %table is left aligned.  The tabular environment is what tells Latex
+  %that the data within is data for the table.
+  
+  \begin{center}
+    \begin{tabular}{|l|l|}
+      % The tabular environment is what tells Latex that the data within is
+      % data for the table.  The arguments say that there will be two
+      % columns, both left justified (indicated by the 'l', you could also
+      % have 'c' or 'r'.  The bars '|' indicate vertical lines throughout
+      % the table.
+
+    \end{tabular}
+  \end{center}
+
+\end{document}
+
+#+end_src
+   看明白这几行注释的意思了吗？现在开始画表格，光标现在应该在第20行。先画一条横线：
+   : \hline
+   : C-j
+   所谓 =\hline= ，顾名思义，就是 =horizontal line= 。
+   
+   开始第一行：
+   : Command & Level \\ \hline
+   : C-j
+   那个 =&= 就是两列之间的分隔符， =\\= 我们见过，表示换行。
+   
+   照猫画虎，把所有的行都加上，得到如下结果：
+#+begin_src latex -n 
+  % 此处删去数十行……
+
+  \subsection{Sectioning Commands}
+  \label{sec:sectioning-commands}
+  The commands for inserting sections are fairly intuitive.  Of course,
+  certain commands are appropriate to different document classes.
+  For example, a book has chapters but a article doesn't.
+   
+  %A simple table.  The center environment is first set up, otherwise the
+  %table is left aligned.  The tabular environment is what tells Latex
+  %that the data within is data for the table.
+  
+  \begin{center}
+    \begin{tabular}{|l|l|}
+      % The tabular environment is what tells Latex that the data within is
+      % data for the table.  The arguments say that there will be two
+      % columns, both left justified (indicated by the 'l', you could also
+      % have 'c' or 'r'.  The bars '|' indicate vertical lines throughout
+      % the table.
+      \hline
+      Command & Level \\ \hline
+      \verb|\part{}| & -1 \\
+      \verb|\chapter{}| & 0 \\
+      \verb|\section{}| & 1 \\
+      \verb|\subsection{}| & 2 \\
+      \verb|\subsubsection{}| & 3 \\
+      \verb|\paragraph{}| & 4 \\
+      \verb|\subparagraph{}| & 5 \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{document}
+#+end_src
+   这张表格的效果应该类似于下面这样:
+#+begin_example
+| Command          | Level |
+|------------------+-------|
+| \part{}          |    -1 |
+| \chapter{}       |     0 |
+| \section{}       |     1 |
+| \subsection{}    |     2 |
+| \subsubsection{} |     3 |
+| \paragraph{}     |     4 |
+| \subparagraph{}  |     5 |
+#+end_example
+
+   现在编译一下，看看效果，还过得去吧？
+   
+   好了，表格画完了。再添加点文字：
+#+begin_src latex -n 
+  % 此处删去数十行……
+
+  \subsection{Sectioning Commands}
+  \label{sec:sectioning-commands}
+  The commands for inserting sections are fairly intuitive.  Of course,
+  certain commands are appropriate to different document classes.
+  For example, a book has chapters but a article doesn't.
+   
+  %A simple table.  The center environment is first set up, otherwise the
+  %table is left aligned.  The tabular environment is what tells Latex
+  %that the data within is data for the table.
+  
+  \begin{center}
+    \begin{tabular}{|l|l|}
+      % The tabular environment is what tells Latex that the data within is
+      % data for the table.  The arguments say that there will be two
+      % columns, both left justified (indicated by the 'l', you could also
+      % have 'c' or 'r'.  The bars '|' indicate vertical lines throughout
+      % the table.
+      \hline
+      Command & Level \\ \hline
+      \verb|\part{}| & -1 \\
+      \verb|\chapter{}| & 0 \\
+      \verb|\section{}| & 1 \\
+      \verb|\subsection{}| & 2 \\
+      \verb|\subsubsection{}| & 3 \\
+      \verb|\paragraph{}| & 4 \\
+      \verb|\subparagraph{}| & 5 \\
+      \hline
+    \end{tabular}
+  \end{center}
+  Numbering of the sections is performed automatically by \LaTeX{}, so don't
+  bother adding them explicitly, just insert the heading you want between
+  the curly braces.  If you don't want sections number, then add an asterisk (*) after the
+  section command, but before the first curly brace, e.g., \verb|section*{A Title Without Numbers}|.
+
+\end{document}
+#+end_src
+
+   现在我们讲讲“参考文献”。其实还是个 =environment= ，叫 =thebibliography= 。试试吧，
+   : C-c C-e
+   : thebibliography
+   : C-j
+   =mini buffer= 提示：
+   : Label for BibItem: 99
+   这是问你，在引用参考文献时，采用两个字符宽的标签是否合适？你知道参考文献在文章中被引用到的时候，不都是以 =[1],[2]...[99]= 这样的形式出现吗？所谓“两个字符的宽度”，也就是说方括号里的数字不超过两个，也就是说你的文章中最多可以有 =[1]...[99]= 99个文献索引。这对于一篇普通的文章来说肯定是足够多了。
+
+   如果你还是不知道这合不合适，那么就假装合适，
+   : C-j
+   =mini buffer= 提示：
+   : (Optional) Bibitem label:
+   这是问你，要不要给每个参考文献条目加个标签？不理它
+   : C-j
+   =mini buffer= 提示：
+   : Add key (default none):
+   这是必须要理的。所谓 =key= ，实际上就是一条参考文献的“标识号”，它是和前面我们见到的 =\cite{}= 命令配合使用的。在引用一条参考文献时，就必然要通过它的标识号来唯一地找到它。比如 =\cite{lamport94}= 就是要从参考文献列表中找到 =lamport94= 所对应的那一条。没明白？那么我们先给它一个 =key= ，等会儿编译一下，看看效果就明白了。输入：
+   : lamport94
+   : C-j
+   得到如下效果：
+#+begin_src latex -n 
+  % 此处略去数十行……
+  
+  \begin{thebibliography}{99}
+  \bibitem{lamport94}
+  \end{thebibliography}
+\end{document}
+#+end_src
+   现在把参考文献写进去就行了：
+#+begin_src latex -n 
+    % 此处略去数十行……
+    
+    \begin{thebibliography}{99}
+    \bibitem{lamport94}
+      Leslie Lamport,
+      \emph{\LaTeX: A Document Preparation System}.
+      Addison Wesley, Massachusetts,
+      2nd Edition,
+      1994.
+    \end{thebibliography}
+  \end{document}
+#+end_src
+   再加一条：
+   : M-return
+   : C-j
+   : wikibooks
+   : C-j
+   : http://en.wikibooks.org/wiki/LaTeX/simple.tex
+   得到：
+#+begin_src latex -n 
+    % 此处略去数十行……
+    
+    \begin{thebibliography}{99}
+    \bibitem{lamport94}
+      Leslie Lamport,
+      \emph{\LaTeX: A Document Preparation System}.
+      Addison Wesley, Massachusetts,
+      2nd Edition,
+      1994.
+    \bibitem{wikibooks}
+      http://en.wikibooks.org/wiki/LaTeX/simple.tex
+    \end{thebibliography}
+  \end{document}
+#+end_src
+   一篇像模像样的科技论文到此就算是大功告成了。
+#+INCLUDE: "simple.tex" src latex
+   编译一下，看看[[./simple.pdf][结果]]吧。
+
+   连看带写，把前面这些东西走一遍，应该不超过一个小时吧。现在我们总结一下你用到的东西：
+
+#+CAPTION: LaTeX的基本命令和环境
+#+ATTR_HTML: border="2" rules="all" frame="all"
+#+begin_example
+   | \title{}     | \author{}       | \date{}            |
+   | \section{}   | \subsection{}   | \subsubsection{}   |
+   | itemize      | tabular         | center             |
+#+end_example
+
+#+CAPTION: 最基本的emacs快捷键
+#+ATTR_HTML: border="2" rules="all" frame="all"
+#+begin_example
+   | C-x C-f | C-x C-s | C-x C-c |       |          |
+   | C-g     | C-j     | C-i     | C-/   |          |
+   | C-k     | C-y     |         |       |          |
+   | C-d     | M-d     |         |       |          |
+   | C-@     | C-SPACE | C-x h   | C-w   | C-INSERT |
+   | C-a     | C-e     | C-f     | C-b   |          |
+   | C-n     | C-p     | C-v     |       |          |
+   | C-x 2   | C-x 3   | C-x 0   | C-x 1 | C-x o    |
+   | C-h i   | C-h t   | C-h k   | C-h f | C-h v    |
+#+end_example
+
+#+CAPTION: 最基本的AucTeX快捷键
+#+ATTR_HTML: border="2" rules="all" frame="all"
+#+begin_example
+   | C-c C-e | C-c C-s | C-c C-m | M-return |
+   | C-c C-c | C-c C-v |         |          |
+#+end_example
+
+* 入门以后……
+  有了第一部分的基础，你可以自己看点参考资料了。
+  1. AucTeX手册就在Emacs里面：
+     : C-h i
+     : m
+     : auctex
+     : C-j
+  2. 花两个小时看看 [[http://lmgtfy.com/?q%3Dlshort][lshort]] 。打开命令行窗口，敲：
+     : sudo apt-get install texlive-doc-en
+     : texdoc lshort
+
+  后面，我们还会陆续介绍
+  1. 如何插入图片
+  2. 如何写数学公式
+  3. 如何插入程序代码
+  4. 如何写中文
+  5. 如何用毕业论文模版
+  6. 如何做幻灯片
+  7. emacs org-mode
+** 如何插入图片
+#+begin_src latex -n 
+  \documentclass{article}
+  
+  \usepackage{graphicx}
+  \graphicspath{{./figs/}{./}}
+  
+  \begin{document}
+  \includegraphics[width=5cm]{tux}
+  \end{document}
+#+end_src
+   怎么样，能看明白吗？插入图片用到了三个新命令：
+   1. =\usepackage{graphicx}= :: 这是在说“我要用到一个名字叫 =graphicx= 的package(宏包)”。似曾相识吧？它不是很类似 =#include<stdio.h>= 吗？ =\includegraphics{}= 就是这宏包中的一个命令。
+   2. =\graphicspath{{./figs/}{./}}= :: 显然这是在指明graphics(图片)所在的path(路径，位置)。
+   3. =\includegraphics[width=5cm]{tux}= :: 这当然就是插入图片了。
+      1) 图片的名字叫 =tux.pdf= ，后缀（.pdf）可以被省略掉。显然 =tux.pdf= 应该被存放在 =./= 或者 =./figs/= 中，才能被找到。我喜欢PDF图片，因为它可以自由缩放。你当然可以插入jpeg、png图片。
+      2) 宽度是5cm，也可以是相对宽度，比如 =[width = .5\textwidth]= 就表示宽度等于0.5倍的行宽。
+      
+   如果你希望图片“居中”摆放，那自然是要用到 =center= 了：
+#+begin_src latex -n 
+  \documentclass{article}
+  
+  \usepackage{graphicx}
+  \graphicspath{{./figs/}{./}}
+  
+  \begin{document}
+  \begin{center}
+    \includegraphics[width=5cm]{tux}
+  \end{center}
+  \end{document}
+#+end_src
+   “哎，为什么没有图片说明？比如，图1：Linux图标？”当然可以有，我们要用到一个新environment了，就叫 =figure= ：
+   : C-c C-e
+   : figure
+   : C-j
+   =mini buffer= 提示：
+   : (Optional) Float position:
+   这是在问你图片放在那里比较好啊？是靠上？还是靠下？还是……？还是让LaTeX来决定吧。于是：
+   : C-j
+   =mini buffer= 提示：
+   : Caption:
+   这是在提示你输入图片的说明文字。那么输入：
+   : Linux logo
+   =mini buffer= 提示：
+   : Center? (y or n):
+   当然是：
+   : y
+   =mini buffer= 提示：
+   : Label: fig:
+   这是要你给图片打个标签，以后方便索引到它。那么就给个标签：
+   : linux-logo
+   于是得到：
+#+begin_src latex -n 
+  \documentclass{article}
+  
+  \usepackage{graphicx}
+  \graphicspath{{./figs/}{./}}
+  
+  \begin{document}
+
+  \begin{figure}
+    \centering
+    
+    \caption{Linux logo}
+    \label{fig:linux-logo}
+  \end{figure}
+
+  \end{document}
+#+end_src
+   现在你建立了一个完美的图片环境，别忘了把图片放进去。当然放在第十行：
+#+begin_src latex -n 
+  \documentclass{article}
+  
+  \usepackage{graphicx}
+  \graphicspath{{./figs/}{./}}
+  
+  \begin{document}
+  
+  \begin{figure}
+    \centering
+    \includegraphics[width=5cm]{tux}
+    \caption{Linux logo}
+    \label{fig:linux-logo}
+  \end{figure}
+  
+  \end{document}
+#+end_src
+   来试试 =\label{}= 的作用：
+#+begin_src latex -n 
+  \documentclass{article}
+  
+  \usepackage{graphicx}
+  \graphicspath{{./figs/}{./}}
+  
+  \begin{document}
+  
+  \begin{figure}
+    \centering
+    \includegraphics[width=5cm]{tux}
+    \caption{Linux logo}
+    \label{fig:linux-logo}
+  \end{figure}
+  
+  Figure~\ref{fig:linux-logo} is the famous Linux Tux!
+  \end{document}
+#+end_src
+   编译一下，看看效果吧。 =\label{}= 和 =\ref{}= 总是配合使用的，一个用来打标签，另一个用来找到它。
+** 如何插入数学公式
+   举个简单的例子吧：
+#+begin_src latex -n 
+  \documentclass{article}
+  
+  \begin{document}
+
+  This is a simple math example: $c^2=a^2+b^2$
+  
+  \end{document}
+#+end_src
+   结果是这样：This is a simple math example: c^2=a^2+b^2
+   - 美元符号($)在LaTeX里面是特殊字符。夹在两个美元符号之间的东西，会被当做数学公式来排版。
+   - 如果想让数学公式独占一行的话，就这样：
+#+begin_src latex -n 
+  \documentclass{article}
+  
+  \begin{document}
+
+  This is a simple math example: $$c^2=a^2+b^2$$
+  
+  \end{document}
+#+end_src
+   也就是每边用两个美元符号。如果想给数学公式排序号的话，就把它放进 equation 环境里：
+   : C-c C-e
+   : equation
+   : C-j
+   : c^2 = a^2 + b^2
+   
+   结果就是这样：
+#+begin_src latex -n 
+  \documentclass{article}
+  
+  \begin{document}
+  
+  This is a simple math example: $$c^2=a^2+b^2$$
+  \begin{equation}
+    \label{eq:1}
+    c^2 = a^2 + b^2
+  \end{equation}
+  \end{document}
+#+end_src
+   编译一下看看，公式右边是不是有序号了？简单吧。
+
+   数学公式排版是LaTeX的强项，各式各样的数学符号、怪异字符无所不及。当然用不着都记住。你只要记住上面这点东西，剩下的，知道查手册就行了：
+   1. lshort, chapter 3 
+      : texdoc lshort
+   2. The LaTeX Companion, chapter 8
+** 如何插入程序代码
+   看个例子就了然了：
+   : \documentclass{article}
+   : 
+   : \usepackage{listings}
+   : 
+   : \begin{document}
+   : 
+   : \lstset{language=c,numbers=left}
+   : \begin{lstlisting}
+   :   #include <stdio.h>
+   :   int main(int argc, char *argv[])
+   :   {
+   :     printf ("Hello, world!\n");
+   :     return 0;
+   :   }
+   : \end{lstlisting}
+   : \end{document}
+   : 
+   : %%% Local Variables: 
+   : %%% mode: latex
+   : %%% TeX-master: t
+   : %%% End: 
+   1. 首先要 =\usepackage{listings}= 。然后，
+   2. 指明程序语言，是否显示行号，也就是这句：
+      : \lstset{language=c,numbers=left}
+   3. 开始一个新环境 =lstlisting= ，把你的程序拷贝进来。怎么？程序太长，拷贝起来太麻烦？那么可以这样：
+      : \documentclass{article}
+      : 
+      : \usepackage{listings}
+      : 
+      : \begin{document}
+      : 
+      : \lstset{language=c,numbers=left}
+      : \lstinputlisting[caption={A example C program}]{hello.c}
+      : 
+      : \end{document}
+      : 
+      : %%% Local Variables: 
+      : %%% mode: latex
+      : %%% TeX-master: t
+      : %%% End: 
+      : 
+      简单吧？ =hello.c= 当然要和你的 =TeX= 文件在同一个目录下，否则你要指明详细路径。
+   
+      =listings= 宏包提供了丰富的命令，可以支持数十种编程语言，可以把程序以各种你能想到的方式排版出来。看看它的手册吧：
+      : texdoc listings
+** 如何输入中文
+   如果你的Ubuntu配置和D215机房是一致的，那么输入中文就是“piece of cake”：
+   : C-x C-f
+   : chinese.tex
+   : C-j
+   : M-x
+#   : wizard-article
+#   : C-j
+   : myarticle [TAB]
+   一个现成的LaTeX模版立时展现在你面前：
+#+INCLUDE: "chinese.tex" src latex
+   这个模版里有了你写一篇漂亮中文文章所需要的一切。光标就停在 =\title{}= 的花括号里，那么就开始用中文填空吧。Happy TeXing!
+** 完美的毕业论文
+   - 写普通文章要用 =\documentclass{article}= ；
+   - 写报告要用 =\documentclass{report}= ；
+   - 写书要用 =\documentclass{book}= ；
+   - 写信要用 =\documentclass{letter}= ；
+   - 那么写毕业论文自然要用毕业论文模版了：
+     : \documentclass{swfcthesis}
+   写毕业论文是个庄严的大事情，当然要为它专门建立一个目录吧。目录建好了，把 [[http://cs3.swfc.edu.cn/~wx672/swfcthesis/swfcthesis/swfcthesis.cls][swfcthesis.cls]] 文件拷贝到这个目录里。然后就可以用它来写你的论文了。
+
+   简而言之，swfcthesis.cls 就是我们的论文模版，它提供了如下一些基本命令：
+   1. =\Title{论文标题}=
+   2. =\Author{作者}=
+   3. =\Advisor{指导教师姓名}=
+   4. =\AdvisorTitle{指导教师职称}=
+   5. =\AdvisorInfo{指导教师简介}=
+   6. =\Month{这里填月份}=
+   7. =\Year{这里填年份}=
+   8. =\Univ{这里填校名}=
+   9. =\School{这里填院名}=
+   10. =\Subject{这里填专业}=
+   11. =\Docname{本科毕业（设计）论文}= ：目前我们只关心本科毕业论文
+   12. =\Abstract{这里填上中文摘要}=
+   13. =\Keywords{这里填上关键字}=
+   14. =\Acknowledgments{这里填上鸣谢某某某}=
+   15. =\enTitle{这里填上英文标题}=
+   16. =\enAuthor{这里填上你的洋名字}=
+   17. =\enUniv{这里填上英文校名}=
+   18. =\enSchool{这里填上英文院名}=
+   19. =\enAbstract{这里填上英文摘要}=
+   20. =\enKeywords{这里填上英文关键字}=
+   21. =\makepreliminarypages{}= ：生成封面、摘要、英文摘要……
+   22. =\Appendix{}= ： 附录部分由此开始
+   23. =\advisorinfopage{}= ： 生成【教师简介】
+   24. =\acknowledgmentspage{}= ： 生成【鸣谢】
+
+   具体如何来用这些命令呢？简而言之，
+   : C-x C-f
+   : thesis.tex
+   : C-j C-j
+#   : M-x wizard-s [TAB]
+#   : C-j
+   : mythesis [TAB]
+   现在一个论文模版就呈现在你的眼前了。
+#+INCLUDE: "thesis.tex" src latex
+   你要做的就是用你前面学到的那些LaTeX命令来填空。别忘了，你随时可以编译一下，看看效果。
+
+   还不明白？再看个例子来找找感觉吧：
+   - thesis2.tex
+#+INCLUDE: "thesis2.tex" src latex
+   上面的例子中，用到了三个 =\include{}= 命令，分别把 =bibliography.tex=, =appendix.tex=, 和 =source.tex= 三个文件的内容包含了进来。也就是说，你事先写好了三个文件：
+   1. =bibliography.tex=: 用来存放参考文献
+   2. =appendix.tex=: 用来存放附录内容
+   3. =source.tex=: 用来存放程序代码
+   下面是这三个文件的例子：
+   - bibliography.tex
+#+INCLUDE: "bibliography.tex" src latex
+   - appendix.tex
+#+INCLUDE: "appendix.tex" src latex
+   - source.tex
+#+INCLUDE: "source.tex" src latex
+   关于论文模版的实现细节、应用实例等信息都可以在[[http://cs3.swfc.edu.cn/~wx672/swfcthesis/swfcthesis/][这里]]找到。
+** LaTeX Beamer --- 完美的幻灯片
+*** Hello, world!
+    让我们还是先拿英文来举例子，最后再说怎么写中文。
+#+INCLUDE: "beamer-en.tex" src latex
+    一套幻灯片是由若干幅画面（frame）组成的，每个 =frame= 可以有一个标题（frametitle）。Easy? 编译一下，看看效果，还不坏吧？
+
+    =frame= 里面可以放任何东西，比如
+    - =itemize=, =enumerate=
+#+begin_src latex -n 
+  \begin{frame}\frametitle{Examples}
+    Itemize example:
+    \begin{itemize}
+    \item Hello, world! is simple; 
+    \item \LaTeX{} beamer is easy.
+    \end{itemize}
+    Enumerate example:
+    \begin{enumerate}
+    \item \LaTeX{} beamer is powerful, and
+    \item beautiful.
+    \end{enumerate}
+  \end{frame}  
+#+end_src
+    - =example=, =exampleblock=
+#+begin_src latex -n 
+  \begin{frame}\frametitle{Examples}
+    \begin{example}
+      Itemize example:
+      \begin{itemize}
+      \item Hello, world! is simple;
+      \item \LaTeX{} beamer is easy.
+      \end{itemize}
+    \end{example}
+    \begin{exampleblock}{Enumerate example:}
+      \begin{enumerate}
+      \item \LaTeX{} beamer is powerful, and
+      \item beautiful.
+      \end{enumerate}
+    \end{exampleblock}
+  \end{frame}  
+#+end_src
+    - =columns=
+#+begin_src latex -n 
+  \begin{frame}\frametitle{Examples}
+    \begin{columns}
+      \begin{column}{.5\textwidth}
+        \begin{example}
+          Itemize example:
+          \begin{itemize}
+          \item Hello, world! is simple;
+          \item \LaTeX{} beamer is easy.
+          \end{itemize}
+        \end{example}
+      \end{column}
+      \begin{column}{.5\textwidth}
+        \begin{exampleblock}{Enumerate example:}
+          \begin{enumerate}
+          \item \LaTeX{} beamer is powerful, and
+          \item beautiful.
+          \end{enumerate}
+        \end{exampleblock}
+      \end{column}
+    \end{columns}
+  \end{frame}  
+#+end_src
+    - 逐行显示：
+#+begin_src latex -n 
+  \begin{frame}\frametitle{Examples}
+    Itemize example: \pause
+    \begin{itemize}
+    \item Hello, world! is simple;  \pause
+    \item \LaTeX{} beamer is easy. \pause
+    \end{itemize}
+    Enumerate example: \pause
+    \begin{enumerate}
+    \item \LaTeX{} beamer is powerful, and \pause
+    \item beautiful. \pause
+    \end{enumerate}
+  \end{frame}  
+#+end_src
+
+    白加黑太单调了？那么，尝试一下七色阳光：
+#+INCLUDE: "beamer2-en.tex" src latex
+    LaTeX beamer提供了大量现成的花哨式样，你只要
+    : \usetheme{你喜欢的式样}
+    就行了。去哪里找？
+    : zxpdf /usr/share/doc/latex-beamer/beameruserguide.pdf.gz
+*** 中文幻灯片
+    如果你的Ubuntu配置和D215机房是一致的，那么输入中文就是“piece of cake”：
+    : C-x C-f
+    : beamer-cn.tex
+    : C-j
+    : M-x
+#    : wizard-beamer
+#    : C-j
+    : mybeamer [TAB]
+    一个现成的LaTeX beamer模版立时展现在你面前：
+#+INCLUDE: "beamer-cn.tex" src latex
+    这个模版里有了你做漂亮幻灯片所需要的一切。光标就停在 =\title{}= 的花括号里，那么就开始用中文填空吧。我所有的课程讲义都是从这个模版产生的。
+
+    如果你嫌它不好看，那么尽管自由发挥，参考《Beamer用户手册》就可以了：
+    : zxpdf /usr/share/doc/latex-beamer/beameruserguide.pdf.gz
+    Happy TeXing!
+** Emacs Org-mode --- 自动生成LaTeX和PDF
+   Org-mode是Emacs的一个功能模块，它是用来写org文件的。
+   - 那什么是org文件？就是以 =.org= 结尾的文件。
+   - 那org文件长什么样？这样：
+#+begin_src org -n 
+  ,* Emacs + AucTeX，60分钟快速入门
+  ,** 放松心情
+  ,   LaTeX很强大，但对于初学者来说，……
+  ,** 用LaTeX写文章就是在编程
+  ,   我们先回忆一下用Emacs写一个 =hello.c= 的过程：
+  ,   1. 打开Emacs；
+  ,   2. 开始编辑一个新文件，名字叫 =hello.c= ：
+  ,      : C-x C-f
+  ,      在Emacs窗口的最下面（也就是 =mini buffer= 里）写上新文件的名字 =hello.c= ：
+  ,      : hello.c
+  ,      : C-j
+  ,   3. 向文件里写东西：……
+  ,*** 什么是 =C-x C-f= ？
+  ,    这么说，
+  ,    1. 把你的双手在标准键盘上放好，
+  ,    2. 左手小指稍向左移，按在 =caps lock= 键上。按住别动。（D215机房的 =caps lock= 键被我们改成 =Control= 键了）
+  ,    3. 小指按在 =caps lock= 上别放开，左手无名指稍向下移，在 =x= 键上按一下就放开，这就是 =C-x= 。
+  ,    4. 小指按在 =caps lock= 上别放开，左手食指在 =f= 键上按一下，这就是 =C-f= 。现在左手各指都可以放开了。
+  
+  ,    这就是 =C-x C-f= ，作用是要求打开一个文件， =f= 代表 =file= 。那么，告诉我……
+  ,** 生活可以更轻松
+  ,  AucTeX是Emacs的一个功能模块，为LaTeX编程提供了巨大的便利。有了AucTeX，你的LaTeX生活可以象 =Hello, world!= 一样简单。现在就跟着我，手把手地领略一下简单的乐趣吧。
+  
+  ,  ……
+  
+  ,* 入门以后……
+  ,  有了第一部分的基础，你可以自己看点参考资料了。
+  
+  ,  ……
+  ,** 如何插入图片
+  ,   ……
+  ,** 如何插入数学公式
+  ,   举个简单的例子吧：……
+  ,** 如何插入程序代码
+  ,   看个例子就了然了：……
+  ,** 如何输入中文
+  ,   如果你的Ubuntu配置和D215机房是一致的，那么输入中文就是“piece of cake”：
+  
+  ,   ……
+  ,** 完美的毕业论文
+  ,   - 写普通文章要用 =\documentclass{article}= ；
+  ,   - 写报告要用 =\documentclass{report}= ；
+  ,   - 写书要用 =\documentclass{book}= ；
+  ,   - 写信要用 =\documentclass{letter}= ；
+  ,   - 那么写毕业论文自然要用毕业论文模版了：
+  ,     : \documentclass{swfcthesis}
+  
+  ,     ……
+  ,** LaTeX Beamer --- 完美的幻灯片
+  ,*** Hello, world!
+  ,   让我们还是先拿英文来举例子，最后再说怎么写中文。……
+  ,*** 中文幻灯片
+  ,    如果你的Ubuntu配置和D215机房是一致的，那么输入中文就是“piece of cake”：
+  ,    : C-x C-f
+  ,    : beamer-cn.tex
+  ,    : C-j
+  ,    : M-x
+  ,    : wizard-beamer
+  ,    : C-j
+  ,    : mybeamer [TAB]
+  ,   一个现成的LaTeX beamer模版立时展现在你面前：……
+  ,** Emacs Org-mode --- 自动生成LaTeX和PDF
+  ,   Org-mode是Emacs的一个功能模块，它是用来写org文件的。
+  ,   - 那什么是org文件？就是以 =.org= 结尾的文件。
+  ,   - 那org文件长什么样？这样：……
+  ,   
+#+end_src
+   换言之，你正在看的这篇小教程就是用org文件生成的。写好的[[file:latex_tutorial.org][org文件]]不仅可以生成漂亮的html文件，还可以生成不错的[[./latex_tutorial.tex][LaTeX文件]]、[[./latex_tutorial.pdf][PDF文件]]、[[./latex_tutorial.txt][纯文本文件]]……
+
+   - 如你所看到的，org文件的语法极其简单，基本上不用学就能用了。
+   - Org-mode也有一套方便的快捷键，自己试试吧。
+     - 针对标题的操作：
+       | C-return | C-c C-n   | C-c C-p |         |
+       | M-up     | M-down    | M-left  | M-right |
+       | tab      | shift-tab | C-tab   |         |
+     - 针对列表的操作：
+       | M-return       | C-j             |        |         |
+       | M-up           | M-down          | M-left | M-right |
+       | shift-left     | shift-right     |        |         |
+       | alt-shift-left | alt-shift-right |        |         |
+       | tab            |                 |        |         |
+     - 针对文章输出的操作：
+       - =C-c C-e t= : 修改默认的输出参数
+       - =C-c C-e h= : 输出HTML
+       - =C-c C-e l= : 输出LaTeX
+       - =C-c C-e p= : 输出PDF
+       - =C-c C-e a= : 输出ascii（纯文本）
+   - 除了写点简单的文章，Org-mode最强大的地方是它的“管理”功能，org本就代表 =organization=
+     - 项目管理，任务管理，日程管理，账务管理……
+   - Org-mode手册就在Emacs里面：
+     : C-h i
+     : m
+     : org
+     : C-j
+   - 更多参考资料：
+     - [[http://orgmode.org/][orgmode.org]]
+     - [[http://orgmode.org/worg/org-tutorials/index.html][Tutorials]]
+     - [[http://orgmode.org/worg/org-faq.html][FAQ]]

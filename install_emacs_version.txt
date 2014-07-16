@@ -1,0 +1,7 @@
+Ubuntu13.04安装Emacs24.3
+1.添加PPA
+$ sudo add-apt-repository ppa:cassou/emacs
+$ sudo apt-get update
+2然后安装：
+sudo apt-get install emacs24 emacs24-el emacs24-common-non-dfsg
+
